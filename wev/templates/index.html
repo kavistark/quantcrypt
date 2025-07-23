@@ -385,7 +385,7 @@
                         <a class="nav-link" href="#services">Services</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
+                        <a class="nav-link" href="{% url "about" %}">About</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" href="#contact">Contact</a>
@@ -460,15 +460,16 @@
                         <p>Custom API development and seamless integration solutions to connect your systems and streamline operations.</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 fade-in">
+               <a href="{% url 'courses' %}" class="col-lg-4 col-md-6 fade-in text-decoration-none">
                     <div class="service-card">
                         <div class="service-icon">
-                            <i class="fas fa-graduation-cap"></i>
+                        <i class="fas fa-graduation-cap"></i>
                         </div>
                         <h4>Courses & Training</h4>
                         <p>Hands-on training courses in web development, mobile apps, and cloud technologies to upskill your team.</p>
                     </div>
-                </div>
+                </a>
+
                 <div class="col-lg-4 col-md-6 fade-in">
                     <div class="service-card">
                         <div class="service-icon">

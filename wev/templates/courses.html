@@ -1,0 +1,179 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Courses & Training - QuantCrypt</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <style>
+    body {
+      background: linear-gradient(to bottom right, #0a0f1c, #1a2332);
+      color: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      padding: 60px 20px;
+    }
+    .section-title {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+    .section-title h2 {
+      font-size: 2.8rem;
+      font-weight: bold;
+      background: linear-gradient(90deg, #3b82f6, #06b6d4);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .content-box {
+      background: #1e2a3b;
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 40px;
+      box-shadow: 0 0 20px rgba(6, 182, 212, 0.1);
+      border: 1px solid rgba(37, 99, 235, 0.2);
+    }
+    h4 {
+      font-size: 1.6rem;
+      color: #38bdf8;
+      margin-bottom: 20px;
+    }
+    ul {
+      padding-left: 20px;
+    }
+    li {
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+    li::marker {
+      color: #06b6d4;
+    }
+    .pricing-box {
+      background: #243447;
+      padding: 25px;
+      border-radius: 10px;
+      border-left: 6px solid #06b6d4;
+      position: relative;
+    }
+    .pricing-box h5 {
+      color: #3b82f6;
+      margin-bottom: 15px;
+    }
+    .register-btn {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .register-btn a {
+      background: linear-gradient(90deg, #2563eb, #06b6d4);
+      border: none;
+      color: white;
+      padding: 10px 25px;
+      border-radius: 30px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .register-btn a:hover {
+      background: #06b6d4;
+      color: #0a0f1c;
+    }
+    .text-center h5 {
+      color: #06b6d4;
+      font-size: 1.4rem;
+      margin-top: 30px;
+    }
+    .text-center p {
+      color: #94a3b8;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="section-title">
+      <h2>QuantCrypt Overview</h2>
+      <p class="lead text-muted">A Government of India MSME Registered company offering industry-ready IT courses with real-time projects, internship support, certification, portfolio hosting, and job assistance.</p>
+    </div>
+
+    <div class="content-box">
+      <h4>📘 Course Catalog</h4>
+      <ul>
+        {% for course in courses %}
+          <li><strong>{{ course.name }}</strong> – {{ course.tools }}<br><small>Projects: {{ course.projects }}</small></li>
+        {% empty %}
+          <li>No courses available at the moment.</li>
+        {% endfor %}
+      </ul>
+    </div>
+
+    <div class="content-box">
+      <h4>🎁 Package & Pricing</h4>
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="pricing-box">
+            <h5>🔹 ₹7,000 – Standard Plan (2 Months)</h5>
+            <ul>
+              <li>1 Course</li>
+              <li>Certificate</li>
+              <li>Portfolio Hosting (Lifetime)</li>
+              <li>Student Portal (2 Months)</li>
+              <li>Real-Time Project</li>
+              <li><strong>Referral Price: ₹5,699</strong></li>
+            </ul>
+            <div class="register-btn">
+              <a href="{% url 'register' %}?plan=standard">Register Now</a>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="pricing-box">
+            <h5>🔸 ₹11,000 – Advanced Plan (3.5 Months)</h5>
+            <ul>
+              <li>1 Course</li>
+              <li>Internship + Certificate</li>
+              <li>Lifetime Student Portal</li>
+              <li>Portfolio Hosting (Lifetime)</li>
+              <li>Real-Time Project</li>
+              <li>Job Support</li>
+              <li><strong>Referral Price: ₹9,999</strong></li>
+            </ul>
+            <div class="register-btn">
+              <a href="{% url 'register' %}?plan=advanced">Register Now</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="content-box">
+      <h4>🏢 Your Facilities</h4>
+      <ul>
+        <li>Lifetime Portfolio Portal</li>
+        <li>Student Learning Dashboard access</li>
+        <li>Internship with certificate</li>
+        <li>Job support via startup tie-ups</li>
+        <li>MSME Registered, Govt. Recognized Company</li>
+      </ul>
+    </div>
+
+    <div class="content-box">
+      <h4>🤝 Your Partnered Startups</h4>
+      <ul>
+        <li>ColgStack</li>
+        <li>Manasio</li>
+        <li>TechNest Labs</li>
+        <li>CodeInfinity</li>
+        <li>FullStack Forge</li>
+        <li>AIxora Systems</li>
+        <li>PixelFrame Animations</li>
+      </ul>
+    </div>
+
+    <div class="text-center">
+      <h5>🏛️ MSME Registered by Govt. of India</h5>
+      <p>This adds credibility, trust, and better recognition to your courses and certificates.</p>
+    </div>
+  </div>
+</body>
+</html>

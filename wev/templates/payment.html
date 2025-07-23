@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Pay Now - QuantCrypt</title>
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+</head>
+<body style="background-color: #0a0f1c; color: white; font-family: sans-serif; text-align: center; padding: 100px;">
+  <h2>Complete Your Payment</h2>
+  <p>Amount: ₹{{ amount|floatformat:2 }}</p>
+  <button id="payBtn" style="padding: 12px 30px; font-size: 16px; background: #06b6d4; color: white; border: none; border-radius: 5px;">
+    Pay Now
+  </button>
+
+  <script>
+    var options = {
+      "key": "{{ razorpay_key }}",
+      "amount": "{{ amount|safe }}",
+      "currency": "INR",
+      "name": "QuantCrypt",
+      "description": "Course Payment",
+      "order_id": "{{ order_id }}",
+      "handler": function (response){
+        alert("Payment successful!");
+        window.location.href = "/success/";  // Redirect to a success page
+      },
+      "prefill": {
+        "name": "QuantCrypt Student",
+        "email": "student@example.com",
+        "contact": "9000000000"
+      },
+      "theme": {
+        "color": "#06b6d4"
+      }
+    };
+
+    document.getElementById('payBtn').onclick = function(e){
+      var rzp = new Razorpay(options);
+      rzp.open();
+      e.preventDefault();
+    };
+  </script>
+</body>
+</html>
