@@ -25,14 +25,13 @@ SECRET_KEY = 'django-insecure-560b(@quw#(+e+cmfzze5&09jso_mimxwb(i+!&7r7$h-2clef
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["quantcrypt.onrender.com,quantcrypt.com"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
