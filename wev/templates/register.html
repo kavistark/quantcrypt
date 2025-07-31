@@ -1,130 +1,112 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Register - QuantCrypt</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background: linear-gradient(to bottom right, #0a0f1c, #1a2332);
-      color: #f8fafc;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 60px 20px;
-    }
-    .register-box {
-      max-width: 600px;
-      margin: auto;
-      background: #1e2a3b;
-      padding: 40px;
-      border-radius: 12px;
-      box-shadow: 0 0 15px rgba(6, 182, 212, 0.1);
-      border: 1px solid rgba(37, 99, 235, 0.2);
-    }
-    .register-box h2 {
-      font-size: 2rem;
-      margin-bottom: 30px;
-      text-align: center;
-      background: linear-gradient(90deg, #3b82f6, #06b6d4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    label {
-      margin-top: 10px;
-    }
-    .btn-submit {
-      margin-top: 20px;
-      background: linear-gradient(90deg, #2563eb, #06b6d4);
-      border: none;
-      color: white;
-      padding: 10px 20px;
-      font-weight: 600;
-      border-radius: 30px;
-      width: 100%;
-    }
-    .btn-submit:hover {
-      background: #06b6d4;
-      color: #0a0f1c;
-    }
-    .ref-code-group {
-      display: none;
-      transition: all 0.3s ease;
-    }
-    .invalid-ref {
-      color: red;
-      font-size: 0.9rem;
-      margin-top: 5px;
-    }
-  </style>
-</head>
-<body>
-  <div class="register-box">
-    <h2>Register for QuantCrypt Courses</h2>
-      <form method="POST" action="{% url 'register' %}">
-        {% csrf_token %}
-        <div class="mb-3">
-          <label for="name" class="form-label">Full Name</label>
-          <input type="text" class="form-control" name="name" required>
-        </div>
+{% extends 'base.html' %}
+{% block title %}Register {% endblock %}
 
-        <div class="mb-3">
-          <label for="email" class="form-label">Email</label>
-          <input type="email" class="form-control" name="email" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="phone" class="form-label">Phone Number</label>
-          <input type="tel" class="form-control" name="phone" required>
-        </div>
-
-        <div class="mb-3">
-          <label for="course" class="form-label">Select Course</label>
-          <select class="form-select" name="course" required>
-            <option value="">Choose a course</option>
-            {% for course in courses %}
-              <option value="{{ course.id }}">{{ course.name }}</option>
-            {% endfor %}
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="plan" class="form-label">Select Plan</label>
-          <select class="form-select" name="plan" required>
-            <option value="">Choose a plan</option>
-            <option value="standard">Standard</option>
-            <option value="advanced">Advanced</option>
-          </select>
-        </div>
-
-        <div class="mb-3">
-          <label for="hasRef" class="form-label">Do you have a referral code?</label>
-          <select class="form-select" id="hasRef" name="hasRef">
-            <option value="no">No</option>
-            <option value="yes">Yes</option>
-          </select>
-        </div>
-
-        <div class="mb-3 ref-code-group" id="refCodeGroup">
-          <label for="refcode" class="form-label">Referral Code</label>
-          <input type="text" class="form-control" name="refcode" id="refcode" placeholder="Enter referral code">
-          <div class="invalid-ref" id="refError"></div>
-        </div>
-
-        <button type="submit" class="btn btn-submit">Proceed to Billing</button>
-      </form>
-
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="section-title text-center">
+    <h2>Course Registration</h2>
+    <p class="lead text-muted">Join QuantCrypt's career-building programs with live projects, certificates, and job support.</p>
   </div>
 
-  <script>
-    const hasRef = document.getElementById("hasRef");
-const refGroup = document.getElementById("refCodeGroup");
-const refError = document.getElementById("refError");
+  <div class="row justify-content-center">
+    <div class="col-lg-6">
+      <div class="service-card">
+        <form method="POST" action="">
+          {% csrf_token %}
 
-hasRef.addEventListener("change", () => {
-  refGroup.style.display = hasRef.value === "yes" ? "block" : "none";
-  refError.innerText = "";
-});
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name</label>
+            <input type="text" class="form-control" id="name" name="name" required>
+          </div>
 
-  </script>
-</body>
-</html>
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="text" class="form-control" id="phone" name="phone" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="course" class="form-label">Select Course</label>
+            <select class="form-select" id="course" name="course" required>
+              {% for course in courses %}
+                <option value="{{ course.id }}" {% if course.name == selected_course %}selected{% endif %}>{{ course.name }}</option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="plan" class="form-label">Plan</label>
+            <select class="form-select" id="plan" name="plan" required>
+              <option value="standard" {% if selected_plan == 'standard' %}selected{% endif %}>Standard (₹7,000)</option>
+              <option value="advanced" {% if selected_plan == 'advanced' %}selected{% endif %}>Advanced (₹11,000)</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="hasRef" class="form-label">Do you have a referral code?</label>
+            <select class="form-select" id="hasRef" name="hasRef">
+              <option value="no">No</option>
+              <option value="yes">Yes</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="refcode" class="form-label">Referral Code</label>
+            <input type="text" class="form-control" id="refcode" name="refcode" placeholder="Enter if applicable">
+          </div>
+
+          <div class="text-center">
+            <button type="submit" class="btn btn-primary-custom">Proceed to Billing</button>
+          </div>
+        </form>
+
+        <div class="mt-4">
+          <h5>💳 Quick Pay Links</h5>
+          <div id="payment-links">
+            <a id="link-standard" href="https://razorpay.me/@quantcryptkavi?amount=Z8CuJKPQbYU9FxwhTZ%2FuFw%3D%3D" class="btn btn-outline-custom my-1 d-block" target="_blank">Pay ₹7,000 - Standard Package</a>
+            <a id="link-standard-ref" href="https://razorpay.me/@quantcryptkavi?amount=8PPxQ8igaplMFXmGpWPZOQ%3D%3D" class="btn btn-outline-custom my-1 d-none" target="_blank">Pay ₹5,699 - Standard (Referral)</a>
+            <a id="link-advanced" href="https://razorpay.me/@quantcryptkavi?amount=ovwBGJmzq5DUf3PQEULjew%3D%3D" class="btn btn-outline-custom my-1 d-none" target="_blank">Pay ₹11,000 - Advanced Package</a>
+            <a id="link-advanced-ref" href="https://razorpay.me/@quantcryptkavi?amount=0G7MD68OKe1DneG78XFs5w%3D%3D" class="btn btn-outline-custom my-1 d-none" target="_blank">Pay ₹9,999 - Advanced (Referral)</a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const planSelect = document.getElementById('plan');
+    const refSelect = document.getElementById('hasRef');
+
+    function updateLinks() {
+      const plan = planSelect.value;
+      const hasRef = refSelect.value;
+
+      // Hide all links
+      document.querySelectorAll('#payment-links a').forEach(el => el.classList.add('d-none'));
+
+      // Show only the relevant one
+      if (plan === 'standard' && hasRef === 'no') {
+        document.getElementById('link-standard').classList.remove('d-none');
+      } else if (plan === 'standard' && hasRef === 'yes') {
+        document.getElementById('link-standard-ref').classList.remove('d-none');
+      } else if (plan === 'advanced' && hasRef === 'no') {
+        document.getElementById('link-advanced').classList.remove('d-none');
+      } else if (plan === 'advanced' && hasRef === 'yes') {
+        document.getElementById('link-advanced-ref').classList.remove('d-none');
+      }
+    }
+
+    planSelect.addEventListener('change', updateLinks);
+    refSelect.addEventListener('change', updateLinks);
+
+    updateLinks(); // Initial call
+  });
+</script>
+{% endblock %}

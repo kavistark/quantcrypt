@@ -5,6 +5,14 @@ from django.views.decorators.csrf import csrf_exempt
 # Hardcoded valid referral code
 VALID_REF_CODE = "L4FAw@AA"
 
+def contact(request):
+    if request.method == "POST":
+        name = request.POST['name']
+        email = request.POST['email']
+        message = request.POST['message']
+        # handle saving or emailing here
+    return render(request, 'contact.html')
+
 def home(request):
     return render(request, 'index.html')
 

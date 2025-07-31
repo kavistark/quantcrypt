@@ -1,91 +1,77 @@
-{% load static %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Billing - QuantCrypt</title>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    body {
-      background-color: #0a0f1c;
-      color: #f8fafc;
-      font-family: 'Segoe UI', sans-serif;
-      padding: 40px 20px;
-    }
-    .billing-box {
-      background: #1e293b;
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 0 20px rgba(6, 182, 212, 0.15);
-      max-width: 800px;
-      margin: auto;
-    }
-    .billing-box h2 {
-      text-align: center;
-      margin-bottom: 25px;
-      color: #38bdf8;
-    }
-    .info {
-      margin-bottom: 20px;
-    }
-    .info strong {
-      color: #06b6d4;
-    }
-    .price-summary {
-      background: #0f172a;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 25px;
-    }
-    .btn-pay {
-      display: block;
-      width: 100%;
-      margin-top: 30px;
-      padding: 12px;
-      background: linear-gradient(90deg, #2563eb, #06b6d4);
-      border: none;
-      border-radius: 30px;
-      color: white;
-      font-weight: 600;
-      text-align: center;
-      text-decoration: none;
-    }
-    .btn-pay:hover {
-      background: #06b6d4;
-      color: #0a0f1c;
-    }
-  </style>
-</head>
-<body>
-  <div class="billing-box">
+{% extends 'base.html' %}
+{% block title %}Billing {% endblock %}
+
+{% block content %}
+<div class="container py-5 mt-5">
+  <div class="section-title text-center">
     <h2>Billing Summary</h2>
-
-    <div class="info">
-      <p><strong>Name:</strong> {{ student.name }}</p>
-      <p><strong>Email:</strong> {{ student.email }}</p>
-      <p><strong>Phone:</strong> {{ student.phone }}</p>
-      <p><strong>Selected Course:</strong> {{ student.course.name }}</p>
-      <p><strong>Package:</strong> {{ student.plan|title }}</p>
-      <p><strong>Referral Code:</strong> {% if student.referral_code %}{{ student.referral_code }} (Applied){% else %}None{% endif %}</p>
-    </div>
-
-    <div class="price-summary">
-      <h5>Payment Details</h5>
-      <p><strong>Original Price:</strong> ₹{{ original_price }}</p>
-      {% if discount %}
-        <p><strong>Referral Discount:</strong> ₹{{ discount }}</p>
-      {% endif %}
-      <hr style="border-top: 1px solid #334155">
-      <h4><strong>Total Payable:</strong> ₹{{ final_price }}</h4>
-    </div>
-
-    <form method="POST" action="{% url 'payment_gateway' %}">
-      {% csrf_token %}
-      <input type="hidden" name="student_id" value="{{ student.id }}">
-      <input type="hidden" name="amount" value="{{ final_price }}">
-      <button type="submit" class="btn-pay">Proceed to Payment</button>
-    </form>
+    <p class="lead text">Please review your registration and proceed with payment.</p>
+    <button class="btn btn-outline-custom mt-2" onclick="window.print()"><i class="fas fa-download me-1"></i> Download Billing Summary</button>
   </div>
-</body>
-</html>
+
+  <div class="row g-4 justify-content-center">
+
+    <!-- Info Box -->
+    <div class="col-lg-6">
+      <div class="service-card">
+        <div class="text-center mb-3">
+          <a class="navbar-brand" href="#">QuantCrypt</a>
+          <p class="text small">Tech Hub, Innovation District<br>quantcrypt.hr@gmail.com | +91 84890 75595</p>
+          <hr>
+        </div>
+
+        <h5 class="mb-3">👤 Student Info</h5>
+        <p><strong>Name:</strong> {{ student.name }}</p>
+        <p><strong>Email:</strong> {{ student.email }}</p>
+        <p><strong>Phone:</strong> {{ student.phone }}</p>
+        <p><strong>Course:</strong> {{ student.course.name }}</p>
+        <p><strong>Plan:</strong> {{ student.plan|title }}</p>
+        <p><strong>Referral Applied:</strong> {{ student.has_discount|yesno:"Yes,No" }}</p>
+
+        <hr>
+
+        <h5 class="mb-3">💸 Payment Details</h5>
+        <p><strong>Original Price:</strong> ₹{{ original_price }}</p>
+        {% if discount > 0 %}
+          <p><strong>Discount:</strong> -₹{{ discount }}</p>
+        {% endif %}
+        <p><strong>Total to Pay:</strong> <span class="text-success">₹{{ final_price }}</span></p>
+
+        <div class="mt-4 text-center">
+          {% if student.plan == 'standard' and student.has_discount %}
+            <a href="https://razorpay.me/@quantcryptkavi?amount=8PPxQ8igaplMFXmGpWPZOQ%3D%3D" target="_blank" class="btn btn-primary-custom">Pay ₹5,699 Now</a>
+          {% elif student.plan == 'standard' %}
+            <a href="https://razorpay.me/@quantcryptkavi?amount=Z8CuJKPQbYU9FxwhTZ%2FuFw%3D%3D" target="_blank" class="btn btn-primary-custom">Pay ₹7,000 Now</a>
+          {% elif student.plan == 'advanced' and student.has_discount %}
+            <a href="https://razorpay.me/@quantcryptkavi?amount=0G7MD68OKe1DneG78XFs5w%3D%3D" target="_blank" class="btn btn-primary-custom">Pay ₹9,999 Now</a>
+          {% elif student.plan == 'advanced' %}
+            <a href="https://razorpay.me/@quantcryptkavi?amount=ovwBGJmzq5DUf3PQEULjew%3D%3D" target="_blank" class="btn btn-primary-custom">Pay ₹11,000 Now</a>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <!-- Features & Notice -->
+    <div class="col-lg-6">
+      <div class="service-card">
+        <h5 class="mb-3">📦 Package Features</h5>
+        <ul>
+          <li>📜 Course Completion Certificate</li>
+          <li>💼 Internship + Real-Time Projects</li>
+          <li>🧠 Resume + GitHub Portfolio</li>
+          <li>📂 Student Dashboard & Learning Portal</li>
+          <li>💬 Job & Placement Assistance</li>
+          <li>🌐 Lifetime Portfolio Hosting</li>
+        </ul>
+        <hr>
+        <h5 class="text-warning mt-4">⚠️ Important Note</h5>
+        <ul class="text">
+          <li>🚫 <strong>No Refund</strong> Policy after payment</li>
+          <li>📲 You'll be added to a WhatsApp & Discord group post-payment</li>
+          <li>📸 Share your <strong>payment screenshot</strong> to our support team</li>
+        </ul>
+      </div>  
+    </div>
+  </div>
+</div>
+{% endblock %}
