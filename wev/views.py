@@ -130,3 +130,53 @@ def payment_gateway(request):
             "razorpay_key": RAZORPAY_KEY_ID,
             "order_id": payment['id']
         })
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .models import ProgramRegister  # Assuming model created
+
+def program_register(request):
+
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        year = request.POST.get('year')
+        college = request.POST.get('college')
+        number = request.POST.get('number')
+        email = request.POST.get('email')
+
+        # Save to model (optional)
+        ProgramRegister.objects.create(
+            name=name, year=year, college=college, number=number, email=email
+        )
+        messages.success(request, "Registration successful.")
+        return redirect('registration_success')
+    
+    return render(request, 'programmer_register_page.html')
+
+def program_register(request):
+    if request.method == 'POST':
+        name = request.POST.get('name')
+        year = request.POST.get('year')
+        college = request.POST.get('college')
+        number = request.POST.get('number')
+        email = request.POST.get('email')
+
+        if ProgramRegister.objects.filter(email=email).exists():
+            messages.error(request, "This email is already registered.")
+            return redirect('program_register')  # Stay on the same page
+
+        ProgramRegister.objects.create(
+            name=name,
+            year=year,
+            college=college,
+            number=number,
+            email=email,
+        )
+        return redirect('registration_success')  # Redirect after successful registration
+
+    return render(request, 'programmer_register_page.html')
+
+def Offer_Program(request):
+    return render(request, 'offer_program.html')
+
+def registration_success(request):
+    return render(request, 'registration_success.html')

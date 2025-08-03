@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block title %}Register {% endblock %}
+
+{% block content %}
+
+<div class="container py-5 mt-5">
+  <div class="section-title text-center">
+    <h2>Register for the Program</h2>
+    <p class="lead text">Start your career journey with QuantCrypt's real-time Data Analytics experience.</p>
+  </div>
+
+ 
+    <div class="row justify-content-center">
+      
+      <!-- Registration Form -->
+      <div class="col-lg-6">
+        <div class="service-card">
+          <h4 class="mb-4 text-center text-primary">Enrollment Form</h4>
+
+          {% if messages %}
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+
+          <form method="POST" action="">
+            {% csrf_token %}
+
+            <div class=" mb-3">
+              <label for="name" class="form-label">Full Name</label>
+              <input type="text" class="form-control" id="name" name="name" required>
+            </div>
+
+            <div class="mb-3">
+              <label for="year" class="form-label">Academic Year</label>
+
+              <select class="form-control" id="year" name="year" required>
+                <option selected disabled >Select your year</option>
+                <option value="1st Year">1st Year</option>
+                <option value="2nd Year">2nd Year</option>
+                <option value="3rd Year">3rd Year</option>
+                <option value="4th Year">4th Year</option>
+                <option value="Graduated">Graduated</option>
+              </select>
+            </div>
+
+            <div class=" mb-3">
+              <label for="college" class="form-label">College Name</label>
+
+              <input type="text"  id="college" name="college"class="form-control" required>
+            </div>
+
+            <div class=" mb-3">
+              <label for="number" class="form-label">Phone Number</label>
+              <input type="text" class="form-control" id="number" name="number"  required>
+            </div>
+
+            <div class=" mb-4">
+              <label for="email" class="form-label">Email Address</label>
+
+              <input type="email" id="email" name="email" class="form-control" required>
+            </div>
+
+            <div class="form-check mb-4">
+              <input class="form-check-input" type="checkbox" id="agree" required>
+              <label class="form-check-label" for="agree">
+                I agree to participate in the QuantCrypt Data Analytics program and understand the guidelines and evaluation process.
+              </label>
+            </div>
+
+            <div class="d-grid">
+              <button type="submit" class="btn btn-primary-custom btn-lg">Register Now</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      <!-- Agreement Card -->
+      <div class="col-lg-6 mt-4 mt-lg-0">
+        <div class="shadow-lg p-4 border-0 rounded-4 ">
+          <h5 class="text-primary mb-3">Program Terms & Agreement</h5>
+          <p>By registering, you confirm that you:</p>
+          <ul class="ps-3">
+            <li>Understand this is a 2-month industry-modeled program.</li>
+            <li>Will receive real-time project work, both individual and team-based.</li>
+            <li>Will be evaluated on your participation and project outcomes.</li>
+            <li>Will receive a certificate equivalent to real industry standards.</li>
+            <li>Will not treat this as a basic internship or low-level course.</li>
+          </ul>
+          <p class="mt-3 text small">
+            You must actively participate in all learning, mentorship, and evaluation components to be eligible for certification.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

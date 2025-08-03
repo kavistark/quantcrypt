@@ -31,3 +31,24 @@ class Registration(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.course.name}"
+
+from django.db import models
+
+class ProgramRegister(models.Model):
+    YEAR_CHOICES = [
+        ('1st Year', '1st Year'),
+        ('2nd Year', '2nd Year'),
+        ('3rd Year', '3rd Year'),
+        ('4th Year', '4th Year'),
+        ('Graduated', 'Graduated'),
+    ]
+
+    name = models.CharField(max_length=100)
+    year = models.CharField(max_length=20, choices=YEAR_CHOICES)
+    college = models.CharField(max_length=150)
+    number = models.CharField(max_length=10)
+    email = models.EmailField(unique=True)
+    registered_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.email})"
