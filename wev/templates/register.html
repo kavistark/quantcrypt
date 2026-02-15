@@ -2,10 +2,68 @@
 {% block title %}Register {% endblock %}
 
 {% block content %}
+<style>
+  
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        color: var(--text-light);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .form-control {
+        background: rgba(10, 15, 28, 0.6);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+        border-radius: 10px;
+        padding: 12px 20px;
+        color: var(--text-light);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        background: rgba(10, 15, 28, 0.8);
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        color: var(--text-light);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: var(--text-muted);
+    }
+
+    .form-select {
+        background: rgba(10, 15, 28, 0.6);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+        border-radius: 10px;
+        padding: 12px 20px;
+        color: var(--text-light);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-select:focus {
+        background: rgba(10, 15, 28, 0.8);
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        color: var(--text-light);
+        outline: none;
+    }
+
+    .form-select option {
+        background: var(--primary-dark);
+        color: var(--text-light);
+    }
+</style>
 <div class="container py-5 mt-5">
   <div class="section-title text-center">
     <h2>Course Registration</h2>
-    <p class="lead text-muted">Join QuantCrypt's career-building programs with live projects, certificates, and job support.</p>
+    <p class="lead text">Join QuantCrypt's career-building programs with live projects, certificates, and job support.</p>
   </div>
 
   <div class="row justify-content-center">

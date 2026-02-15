@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, Registration, ProgramRegister
+from .models import Course, Registration, ProgramRegister ,ServiceInterest
 
 
 @admin.register(Course)
@@ -23,8 +23,8 @@ class RegistrationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'phone', 'referral_code')
 
 
+admin.site.register(ServiceInterest)
+
 @admin.register(ProgramRegister)
 class ProgramRegisterAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'year', 'college', 'number', 'registered_at')
-    list_filter = ('year', 'registered_at')
-    search_fields = ('name', 'email', 'college', 'number')
+    list_display = ('name', 'email', 'college', 'year')

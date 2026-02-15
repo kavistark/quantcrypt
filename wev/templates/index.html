@@ -2,6 +2,7 @@
 {% load static %}
 {% block title %} - QuantCrypt{% endblock %}
 {% block content %}
+
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick.css"/>
 <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/slick-carousel@1.8.1/slick/slick-theme.css"/>
 <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
@@ -118,7 +119,7 @@
                 <p class="lead text">Comprehensive technology solutions tailored to your needs</p>
             </div>
             <div class="row g-4">
-                <div class="col-lg-4 col-md-6 fade-in">
+                <a href="{% url 'Web_Development_Services' %}" class="col-lg-4 col-md-6 fade-in text-decoration-none">
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fas fa-code"></i>
@@ -126,7 +127,7 @@
                         <h4>Web Development</h4>
                         <p>Custom websites, CMS solutions, and e-commerce platforms built with modern technologies for optimal performance and user experience.</p>
                     </div>
-                </div>
+                  </a>
                 <div class="col-lg-4 col-md-6 fade-in">
                     <div class="service-card">
                         <div class="service-icon">
@@ -136,7 +137,7 @@
                         <p>Complete cloud deployment, migration, DevOps automation, and maintenance services to scale your infrastructure efficiently.</p>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 fade-in">
+                <a  href="{% url 'android_Development_Services' %}" class="col-lg-4 col-md-6 fade-in text-decoration-none" >
                     <div class="service-card">
                         <div class="service-icon">
                             <i class="fas fa-mobile-alt"></i>
@@ -144,16 +145,21 @@
                         <h4>App Development</h4>
                         <p>Native and cross-platform mobile applications designed to deliver exceptional user experiences across all devices.</p>
                     </div>
-                </div>
-                <a href="{% url 'offer_program' %}" class="col-lg-4 col-md-6 fade-in text-decoration-none">
+                </a>
+               <a href="{% url 'offer_program' %}" class="col-lg-4 col-md-6 fade-in text-decoration-none">
                     <div class="service-card">
                         <div class="service-icon">
-                             <i class="fas fa-award"></i>
+                            <i class="fas fa-network-wired"></i>
                         </div>
-                        <h4>Process Offer Program</h4>
-                        <p>Two-month intensive program offering individual and team projects, real-time tools, and industrial experience to prepare you for real-world roles.</p>
+                        <h4>CCNA & Ethical Hacking Program</h4>
+                        <p>
+                            Industry-focused CCNA and Ethical Hacking training covering networking fundamentals,
+                            cybersecurity concepts, real-time labs, tools, and hands-on projects to prepare you
+                            for real-world networking and security roles.
+                        </p>
                     </div>
                 </a>
+
                <a href="{% url 'courses' %}" class="col-lg-4 col-md-6 fade-in text-decoration-none">
                     <div class="service-card">
                         <div class="service-icon">
@@ -177,22 +183,22 @@
         </div>
     </section>
 
-<section class="logos-slider-section py-5" >
-  <div class="text-center mb-4">
-    <h2 style="font-size: 2rem;">Our Tie-Up Companies</h2>
-    <p >Proud collaborations with top brands across industries</p>
-  </div>
-
-  <div class="logo-slider-container">
-    <div class="logo-track">
-      <img src="https://colgstack.blr1.cdn.digitaloceanspaces.com/static/logo/colgstackLogo.png" alt="Colgstack" />
-      <img src="https://manasio.com/img/Manasio_logo.png" alt="Manasio" />
-      <img src="https://static.wixstatic.com/media/af9a41_020c7e3ea4f0407280efc0997a4477d9~mv2.png/v1/fill/w_85,h_60,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/transaltus%20f1-10.png" alt="Transaltus" />
-      <img src="https://www.kellton.com/themes/custom/kellton_theme/logo.svg" alt="Kellton" />
-      <img src="https://zapcom.ai/wp-content/uploads/2023/09/Zapcom-Logo-300x60.png" alt="Zapcom" />
+    <section class="logos-slider-section py-5" >
+    <div class="text-center mb-4">
+        <h2 style="font-size: 2rem;">Our Tie-Up Companies</h2>
+        <p >Proud collaborations with top brands across industries</p>
     </div>
-  </div>
-</section>
+
+    <div class="logo-slider-container">
+        <div class="logo-track">
+        <img src="https://colgstack.blr1.cdn.digitaloceanspaces.com/static/logo/colgstackLogo.png" alt="Colgstack" />
+        <img src="https://manasio.com/img/Manasio_logo.png" alt="Manasio" />
+        <img src="https://static.wixstatic.com/media/af9a41_020c7e3ea4f0407280efc0997a4477d9~mv2.png/v1/fill/w_85,h_60,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/transaltus%20f1-10.png" alt="Transaltus" />
+        <img src="https://www.kellton.com/themes/custom/kellton_theme/logo.svg" alt="Kellton" />
+        <img src="https://zapcom.ai/wp-content/uploads/2023/09/Zapcom-Logo-300x60.png" alt="Zapcom" />
+        </div>
+    </div>
+    </section>
 
     <!-- About Section -->
     <section id="about" class="about">

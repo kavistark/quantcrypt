@@ -1,0 +1,790 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Web Development Services - QuantCrypt{% endblock %}
+
+{% block content %}
+<style>
+  
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        color: var(--text-light);
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+        display: block;
+    }
+
+    .form-control {
+        background: rgba(10, 15, 28, 0.6);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+        border-radius: 10px;
+        padding: 12px 20px;
+        color: var(--text-light);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-control:focus {
+        background: rgba(10, 15, 28, 0.8);
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        color: var(--text-light);
+        outline: none;
+    }
+
+    .form-control::placeholder {
+        color: var(--text-muted);
+    }
+
+    .form-select {
+        background: rgba(10, 15, 28, 0.6);
+        border: 1px solid rgba(37, 99, 235, 0.3);
+        border-radius: 10px;
+        padding: 12px 20px;
+        color: var(--text-light);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-select:focus {
+        background: rgba(10, 15, 28, 0.8);
+        border-color: var(--cyan);
+        box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        color: var(--text-light);
+        outline: none;
+    }
+
+    .form-select option {
+        background: var(--primary-dark);
+        color: var(--text-light);
+    }
+</style>
+
+<style>
+    .service-hero {
+        min-height: 60vh;
+        display: flex;
+        align-items: center;
+        padding-top: 100px;
+        position: relative;
+    }
+
+    .service-hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(45deg, var(--text-light), var(--cyan));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        animation: slideInUp 1s ease-out;
+    }
+
+    .service-hero p {
+        font-size: 1.2rem;
+        color: var(--text-muted);
+        margin-bottom: 2rem;
+        animation: slideInUp 1s ease-out 0.2s both;
+    }
+
+    .section-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding-top: 80px;
+    }
+
+    .section-header h2 {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        background: linear-gradient(45deg, var(--text-light), var(--cyan));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .section-header p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+    }
+
+    .client-links {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;           /* enable horizontal side scroll */
+    padding: 10px 0;
+    scroll-snap-type: x mandatory;
+    animation: fadeSlide 1s ease forwards;
+
+    /* hide scrollbar */
+    scrollbar-width: none;      /* Firefox */
+    }
+    .client-links::-webkit-scrollbar {
+        display: none;              /* Chrome, Safari */
+    }
+
+    /* client cards/buttons */
+    .client-link-btn {
+        flex: 0 0 auto;              /* prevents shrinking */
+        min-width: 200px;            /* width of each slide */
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        padding: 15px 20px;
+        scroll-snap-align: start;
+        
+        background: rgba(37, 99, 235, 0.15);
+        border-radius: 15px;
+        color: #fff;
+        text-decoration: none;
+        transition: 0.3s ease;
+        font-weight: 500;
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        backdrop-filter: blur(6px);
+    }
+
+    /* hover animation */
+    .client-link-btn:hover {
+        transform: translateY(-5px);
+        background: rgba(37, 99, 235, 0.3);
+        box-shadow: 0px 10px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    /* fade + slide animation (same as before) */
+    @keyframes fadeSlide {
+        0% {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        100% {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+
+    
+    .team-grid {
+        display: grid;
+        grid-auto-flow: column;       /* makes items flow horizontally */
+        grid-auto-columns: 300px;     /* width of each card */
+        gap: 30px;
+        overflow-x: auto;     
+        padding: 1rem;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
+    }
+
+    .team-card {
+        min-width: 300px;
+        background: rgba(26, 35, 50, 0.8);
+        border: 1px solid rgba(37, 99, 235, 0.2);
+        border-radius: 20px;
+        padding: 2rem;
+        transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .team-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: linear-gradient(45deg, var(--accent-blue), var(--cyan));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .team-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .team-card:hover {
+        transform: translateY(-10px);
+        border-color: var(--cyan);
+        box-shadow: 0 20px 40px rgba(6, 182, 212, 0.2);
+    }
+
+    .team-icon {
+        width: 70px;
+        height: 70px;
+        background: linear-gradient(45deg, var(--accent-blue), var(--cyan));
+        border-radius: 15px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+        font-size: 2rem;
+    }
+
+    .team-card h4 {
+        color: var(--text-light);
+        margin-bottom: 1rem;
+        font-weight: 600;
+        font-size: 1.3rem;
+    }
+
+    .team-card p {
+        color: var(--text-muted);
+        line-height: 1.6;
+        font-size: 0.95rem;
+    }
+
+    .badge-custom {
+        display: inline-block;
+        background: rgba(37, 99, 235, 0.2);
+        color: var(--cyan);
+        padding: 6px 15px;
+        border-radius: 20px;
+        font-size: 0.85rem;
+        margin-top: 1rem;
+        font-weight: 600;
+    }
+
+    .badge-marketing {
+        background: rgba(139, 92, 246, 0.2);
+        color: #a78bfa;
+    }
+
+    .contact-section {
+        background: rgba(26, 35, 50, 0.5);
+        padding: 80px 0;
+        margin-top: 80px;
+    }
+
+    .contact-form {
+        max-width: 700px;
+        margin: 0 auto;
+        background: rgba(26, 35, 50, 0.8);
+        border: 1px solid rgba(37, 99, 235, 0.2);
+        border-radius: 20px;
+        padding: 3rem;
+        backdrop-filter: blur(10px);
+    }
+    textarea.form-control {
+        resize: vertical;
+        min-height: 150px;
+    }
+
+    .submit-btn {
+        background: linear-gradient(45deg, var(--accent-blue), var(--cyan));
+        border: none;
+        padding: 15px 40px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        border-radius: 50px;
+        color: white;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        width: 100%;
+    }
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+    }
+
+    .intro-card {
+        background: rgba(26, 35, 50, 0.8);
+        border: 1px solid rgba(37, 99, 235, 0.2);
+        border-radius: 20px;
+        padding: 3rem;
+        backdrop-filter: blur(10px);
+        margin: 3rem 0;
+    }
+
+    .intro-card p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .service-hero h1 {
+            font-size: 2rem;
+        }
+
+        .section-header h2 {
+            font-size: 2rem;
+        }
+
+        .team-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .contact-form {
+            padding: 2rem;
+        }
+    }
+
+    .movie-slider {
+    display: flex;
+    gap: 25px;
+    overflow-x: auto;
+    padding: 20px 5px;
+    scrollbar-width: none;
+    }
+    .movie-slider::-webkit-scrollbar {
+    display: none;
+    }
+
+    .movie-card {
+    position: relative;
+    width: 260px;
+    min-width: 260px;
+    height: 390px;
+    border-radius: 22px;
+    overflow: hidden;
+    background: #ddd;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .movie-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.3);
+    }
+
+    .movie-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    }
+
+    .movie-info {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 18px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: white;
+    }
+
+    .movie-info h3 {
+    font-size: 1.3rem;
+    margin-bottom: 4px;
+    font-weight: 700;
+    }
+
+    .movie-info p {
+    opacity: 0.8;
+    font-size: 0.9rem;
+    margin: 0;
+    }
+
+    .hero-bg-blur {
+    background: url('{% static "assets/img/sample2.jpg" %}') no-repeat center center/cover;
+    filter: blur(8px);
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    transform: scale(1.05); /* Slight scale to cover blur edges */
+    }
+    .service-title {
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 10px;
+    }
+
+    .service-subtitle {
+    font-size: 1.2rem;
+    color: #d7d7d7;
+    opacity: 0.9;
+    }
+
+    .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 25px;
+    margin-top: 30px;
+    }
+
+    .tech-card {
+    padding: 25px;
+    text-align: center;
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.1rem;
+    transition: 0.3s ease;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: fadeUp 0.8s forwards;
+    }
+
+    /* Hover animation */
+    .tech-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.18);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.25);
+    }
+
+    /* Sequential animation */
+    .tech-card:nth-child(1) { animation-delay: 0s; }
+    .tech-card:nth-child(2) { animation-delay: 0.1s; }
+    .tech-card:nth-child(3) { animation-delay: 0.2s; }
+    .tech-card:nth-child(4) { animation-delay: 0.3s; }
+    .tech-card:nth-child(5) { animation-delay: 0.4s; }
+
+    .tech-card:nth-child(6) { animation-delay: 0.5s; }
+    .tech-card:nth-child(7) { animation-delay: 0.6s; }
+    .tech-card:nth-child(8) { animation-delay: 0.7s; }
+    .tech-card:nth-child(9) { animation-delay: 0.8s; }
+    .tech-card:nth-child(10) { animation-delay: 0.9s; }
+
+    .tech-card:nth-child(11) { animation-delay: 1s; }
+    .tech-card:nth-child(12) { animation-delay: 1.1s; }
+    .tech-card:nth-child(13) { animation-delay: 1.2s; }
+    .tech-card:nth-child(14) { animation-delay: 1.3s; }
+    .tech-card:nth-child(15) { animation-delay: 1.4s; }
+
+    @keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media(max-width: 992px) {
+    .tech-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    }
+
+    @media(max-width: 576px) {
+    .tech-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    }
+
+</style>
+
+<!-- Hero Section -->
+<section class="service-hero">
+    <div class="container position-relative py-5">
+    <div class="hero-bg-blur"></div>
+
+    <div class="row">
+        <div class="col-lg-8 mx-auto text-center">
+
+            <h1 class="service-subtitle">🚀 Web Development Services</h1>
+
+            <p class="service-subtitle">
+                Transforming Ideas into Digital Excellence Through Strategic Innovation
+            </p>
+
+        </div>
+    </div>
+    </div>
+
+</section>
+
+<!-- Service Approach Section -->
+<section class="container my-5">
+    <div class="section-header">
+        <h2>Our Approach</h2>
+        <p>Crafted from comprehensive client sessions</p>
+    </div>
+    
+    <div class="intro-card fade-in">
+        <p>
+            After comprehensive client sessions, we've crafted a tailored web development service that brings your vision to life. 
+            Our process begins with understanding your unique business needs, goals, and challenges. Through collaborative sessions, 
+            we gather insights that shape every aspect of your project, ensuring a solution that exceeds expectations.
+        </p>
+        <p>
+            We believe in transparent communication and partnership throughout the development journey. Your success is our mission, 
+            and we dedicate our expert team to deliver cutting-edge solutions that drive real business results.
+        </p>
+    </div>
+</section>
+
+<section class="container my-5">
+    <div class="section-header text-center">
+        <h2>Web Development Technologies</h2>
+        <p>Tools and frameworks we use to build powerful digital solutions</p>
+    </div>
+
+    <div class="tech-grid">
+
+        <div class="tech-card">Python</div>
+        <div class="tech-card">Django</div>
+        <div class="tech-card">Flask</div>
+        <div class="tech-card">FastAPI</div>
+        <div class="tech-card">HTML</div>
+
+        <div class="tech-card">CSS</div>
+        <div class="tech-card">JavaScript</div>
+        <div class="tech-card">React.js</div>
+        <div class="tech-card">Node.js</div>
+        <div class="tech-card">Express.js</div>
+
+        <div class="tech-card">MongoDB</div>
+        <div class="tech-card">MySQL</div>
+        <div class="tech-card">PostgreSQL</div>
+        <div class="tech-card">REST API</div>
+        <div class="tech-card">GraphQL</div>
+
+    </div>
+</section>
+
+
+<section class="container my-5">
+    <div class="section-header">
+        <h2>Client Resources</h2>
+        <p>Quick access to your project dashboard</p>
+    </div>
+
+    <!-- Movie Style Horizontal Slider -->
+    <div class="movie-slider fade-in">
+
+        <div class="movie-card">
+            <img src="/mnt/data/Create Eye-Catching Movie Poster Cards HTML & CSS.jpg" alt="Client Profile">
+            <div class="movie-info">
+                <h3>Client Profile</h3>
+                <p>Manage your personal information</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="/mnt/data/Create Eye-Catching Movie Poster Cards HTML & CSS.jpg" alt="Dashboard">
+            <div class="movie-info">
+                <h3>Dashboard</h3>
+                <p>Overview of your projects</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="/mnt/data/Create Eye-Catching Movie Poster Cards HTML & CSS.jpg" alt="Project Status">
+            <div class="movie-info">
+                <h3>Project Status</h3>
+                <p>Track project progress</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="/mnt/data/Create Eye-Catching Movie Poster Cards HTML & CSS.jpg" alt="Invoices">
+            <div class="movie-info">
+                <h3>Invoices</h3>
+                <p>Billing & Payment details</p>
+            </div>
+        </div>
+
+        <div class="movie-card">
+            <img src="/mnt/data/Create Eye-Catching Movie Poster Cards HTML & CSS.jpg" alt="Support">
+            <div class="movie-info">
+                <h3>Support Tickets</h3>
+                <p>Get help anytime</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Core Technical Team -->
+<section class="container my-5">
+    <div class="section-header">
+        <h2>Core Technical Team</h2>
+        <p>Expert developers bringing decades of combined experience</p>
+    </div>
+    
+    <div class="team-grid fade-in">
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h4>Project Manager</h4>
+            <p>Orchestrates project timeline, resources, and communication. Ensures seamless delivery and stakeholder alignment throughout the development lifecycle.</p>
+            <span class="badge-custom">Core Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-sitemap"></i>
+            </div>
+            <h4>Solution Architect</h4>
+            <p>Designs robust, scalable system architecture. Selects optimal technologies and ensures best practices for long-term maintainability.</p>
+            <span class="badge-custom">Core Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-palette"></i>
+            </div>
+            <h4>UI/UX Designer</h4>
+            <p>Creates intuitive, beautiful user experiences. Transforms concepts into engaging visual designs that delight users.</p>
+            <span class="badge-custom">Core Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-code"></i>
+            </div>
+            <h4>Frontend Developer</h4>
+            <p>Builds responsive, interactive user interfaces. Expertise in modern frameworks and performance optimization techniques.</p>
+            <span class="badge-custom">Core Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-server"></i>
+            </div>
+            <h4>Backend Developer</h4>
+            <p>Develops secure, efficient server-side logic. Manages databases, APIs, and seamless system integration.</p>
+            <span class="badge-custom">Core Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-bug"></i>
+            </div>
+            <h4>QA Engineer</h4>
+            <p>Ensures flawless functionality through rigorous testing. Maintains quality standards across all features and platforms.</p>
+            <span class="badge-custom">Core Team</span>
+        </div>
+    </div>
+</section>
+
+<!-- Marketing Team -->
+<section class="container my-5">
+    <div class="section-header">
+        <h2>Digital Marketing & Strategy Team</h2>
+        <p>Ensuring your digital presence reaches the right audience</p>
+    </div>
+    
+    <div class="team-grid fade-in">
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-search"></i>
+            </div>
+            <h4>SEO Specialist</h4>
+            <p>Optimizes your website for search engines. Drives organic traffic and improves online visibility through strategic SEO practices.</p>
+            <span class="badge-custom badge-marketing">Marketing Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-pen-fancy"></i>
+            </div>
+            <h4>Content Strategist</h4>
+            <p>Develops compelling content strategies. Creates engaging narratives that resonate with your target audience.</p>
+            <span class="badge-custom badge-marketing">Marketing Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-hashtag"></i>
+            </div>
+            <h4>Social Media Manager</h4>
+            <p>Manages your social presence across platforms. Builds community engagement and strengthens brand awareness.</p>
+            <span class="badge-custom badge-marketing">Marketing Team</span>
+        </div>
+
+        <div class="team-card">
+            <div class="team-icon">
+                <i class="fas fa-chart-line"></i>
+            </div>
+            <h4>Digital Marketing Manager</h4>
+            <p>Oversees comprehensive digital marketing campaigns. Drives ROI through data-driven strategies and analytics.</p>
+            <span class="badge-custom badge-marketing">Marketing Team</span>
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section class="contact-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Get Started Today</h2>
+            <p>Ready to transform your digital presence? Let's discuss your project</p>
+        </div>
+
+        <div class="contact-form fade-in">
+             <form method="POST" action="">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label for="name" class="form-label">Full Name *</label>
+            <input type="text" name="name" class="form-control" required placeholder="John Doe">
+          </div>
+
+          <div class="mb-3">
+            <label for="email" class="form-label">Email Address *</label>
+            <input type="email" name="email" class="form-control" required placeholder="john@example.com">
+          </div>
+
+          <div class="mb-3">
+            <label for="phone" class="form-label">Phone Number</label>
+            <input type="tel" name="phone" class="form-control" placeholder="+1 (555) 123-4567">
+          </div>
+
+          <div class="mb-3">
+            <label for="service" class="form-label">Service Interest *</label>
+            <select class="form-select" id="service" name="service" required>
+              <option value="web-development">Web Development</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="message" class="form-label">Project Details *</label>
+            <textarea name="message" rows="5" class="form-control" required placeholder="Tell us about your project requirements, goals, and timeline..."></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary-custom">
+            <i class="fas fa-paper-plane"></i> Send Inquiry
+          </button>
+        </form>
+
+        </div>
+    </div>
+</section>
+
+<script>
+    function handleSubmit(event) {
+        event.preventDefault();
+        
+        const formData = {
+            name: document.getElementById('name').value,
+            email: document.getElementById('email').value,
+            phone: document.getElementById('phone').value,
+            service: document.getElementById('service').value,
+            message: document.getElementById('message').value
+        };
+        
+        alert('Thank you for your inquiry! Our team will contact you within 24 hours.\n\nSubmitted Details:\nName: ' + formData.name + '\nEmail: ' + formData.email);
+        
+        event.target.reset();
+    }
+
+    // Fade-in animation on scroll
+    document.addEventListener('DOMContentLoaded', function() {
+        const fadeElements = document.querySelectorAll('.fade-in');
+        
+        const fadeObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        fadeElements.forEach(el => {
+            fadeObserver.observe(el);
+        });
+    });
+</script>
+{% endblock %}
