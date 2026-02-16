@@ -5,1338 +5,521 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Course Registration - QuantCrypt Training</title>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --color-bg: #000000;
-            --color-bg-dark: #0a0a0a;
-            --color-primary: #00d9ff;
-            --color-secondary: #00ff88;
-            --color-accent: #7b2cbf;
-            --color-text: #ffffff;
-            --color-text-gray: #b0b0b0;
-            --color-text-dark: #808080;
-            --gradient-primary: linear-gradient(135deg, #00d9ff 0%, #00ff88 100%);
-            --glow-primary: 0 0 20px rgba(0, 217, 255, 0.5);
-            --glow-secondary: 0 0 20px rgba(0, 255, 136, 0.5);
-            --glow-combined: 0 0 30px rgba(0, 217, 255, 0.3), 0 0 60px rgba(0, 255, 136, 0.2);
-            --radius-md: 12px;
-            --radius-lg: 20px;
-            --transition-normal: 0.3s ease;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: var(--color-bg);
-            color: var(--color-text);
-            line-height: 1.6;
-            overflow-x: hidden;
-            min-height: 100vh;
-        }
-
-        h1, h2, h3, h4 {
-            font-family: 'Orbitron', sans-serif;
-        }
-
-        /* Background Animation */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-            overflow: hidden;
-        }
-
-        .bg-animation::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(0, 217, 255, 0.1) 0%, transparent 50%);
-            animation: rotate 30s linear infinite;
-        }
-
-        @keyframes rotate {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* Header */
-        .header {
-            position: relative;
-            z-index: 10;
-            padding: 2rem;
-            text-align: center;
-            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9), transparent);
-        }
-
-        .logo {
-            font-size: 2rem;
-            font-weight: 900;
-            background: var(--gradient-primary);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 0.5rem;
-        }
-
-        .header-subtitle {
-            color: var(--color-text-gray);
-            font-size: 1rem;
-        }
-
-        /* Main Container */
-        .container {
-            position: relative;
-            z-index: 10;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 2rem;
-        }
-
-        /* Progress Steps */
-        .progress-container {
-            margin-bottom: 3rem;
-        }
-
-        .progress-steps {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-
-        .progress-line {
-            position: absolute;
-            top: 25px;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: rgba(0, 217, 255, 0.2);
-            z-index: 0;
-        }
-
-        .progress-line-fill {
-            position: absolute;
-            top: 0;
-            left: 0;
-            height: 100%;
-            background: var(--gradient-primary);
-            transition: width 0.5s ease;
-            box-shadow: var(--glow-primary);
-        }
-
-        .progress-step {
-            position: relative;
-            z-index: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            flex: 1;
-        }
-
-        .step-circle {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: rgba(0, 217, 255, 0.1);
-            border: 3px solid rgba(0, 217, 255, 0.3);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--color-text-gray);
-            transition: all var(--transition-normal);
-            margin-bottom: 0.75rem;
-        }
-
-        .progress-step.active .step-circle {
-            background: var(--gradient-primary);
-            border-color: var(--color-primary);
-            color: var(--color-bg);
-            box-shadow: var(--glow-combined);
-            transform: scale(1.1);
-        }
-
-        .progress-step.completed .step-circle {
-            background: var(--color-secondary);
-            border-color: var(--color-secondary);
-            color: var(--color-bg);
-        }
-
-        .progress-step.completed .step-circle::after {
-            content: '✓';
-        }
-
-        .step-label {
-            font-size: 0.9rem;
-            color: var(--color-text-gray);
-            font-weight: 500;
-            text-align: center;
-        }
-
-        .progress-step.active .step-label {
-            color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        /* Form Card */
-        .form-card {
-            background: rgba(255, 255, 255, 0.02);
-            backdrop-filter: blur(20px);
-            border: 2px solid rgba(0, 217, 255, 0.2);
-            border-radius: var(--radius-lg);
-            padding: 3rem;
-            box-shadow: var(--glow-combined);
-            max-width: 900px;
-            margin: 0 auto;
-        }
-
-        .form-step {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-
-        .form-step.active {
-            display: block;
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        .step-title {
-            font-size: 2rem;
-            color: var(--color-primary);
-            margin-bottom: 1rem;
-            text-align: center;
-        }
-
-        .step-description {
-            text-align: center;
-            color: var(--color-text-gray);
-            margin-bottom: 2.5rem;
-            font-size: 1.1rem;
-        }
-
-        /* Package Selection */
-        .packages-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 2rem;
-        }
-
-        .package-card {
-            background: rgba(0, 217, 255, 0.03);
-            border: 2px solid rgba(0, 217, 255, 0.2);
-            border-radius: var(--radius-md);
-            padding: 2rem;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .package-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(0, 217, 255, 0.1), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .package-card:hover::before {
-            left: 100%;
-        }
-
-        .package-card:hover {
-            transform: translateY(-10px);
-            border-color: var(--color-primary);
-            box-shadow: var(--glow-primary);
-        }
-
-        .package-card.selected {
-            background: rgba(0, 217, 255, 0.1);
-            border-color: var(--color-primary);
-            box-shadow: var(--glow-combined);
-            transform: scale(1.02);
-        }
-
-        .package-card.selected::after {
-            content: '✓ Selected';
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            background: var(--gradient-primary);
-            color: var(--color-bg);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-weight: 600;
-            font-size: 0.85rem;
-        }
-
-        .package-card.recommended {
-            border-color: var(--color-secondary);
-        }
-
-        .recommended-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: var(--gradient-primary);
-            color: var(--color-bg);
-            padding: 0.4rem 1.5rem;
-            border-radius: 20px;
-            font-weight: 700;
-            font-size: 0.85rem;
-            box-shadow: var(--glow-primary);
-        }
-
-        .package-icon {
-            font-size: 4rem;
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .package-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--color-primary);
-            text-align: center;
-            margin-bottom: 1rem;
-        }
-
-        .package-price {
-            font-size: 2.5rem;
-            font-weight: 900;
-            font-family: 'Orbitron', sans-serif;
-            color: var(--color-secondary);
-            text-align: center;
-            margin-bottom: 0.5rem;
-        }
-
-        .package-original-price {
-            text-decoration: line-through;
-            color: var(--color-text-dark);
-            font-size: 1.2rem;
-            margin-right: 0.5rem;
-        }
-
-        .package-duration {
-            text-align: center;
-            color: var(--color-text-gray);
-            margin-bottom: 1rem;
-        }
-
-        .package-features {
-            list-style: none;
-            margin-top: 1.5rem;
-        }
-
-        .package-features li {
-            padding: 0.5rem 0;
-            color: var(--color-text-gray);
-            display: flex;
-            align-items: center;
-        }
-
-        .package-features li::before {
-            content: '✓';
-            color: var(--color-secondary);
-            font-weight: bold;
-            margin-right: 0.75rem;
-            font-size: 1.2rem;
-        }
-
-        /* Form Groups */
-        .form-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 1.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-group.full-width {
-            grid-column: 1 / -1;
-        }
-
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: var(--color-primary);
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-
-        .required {
-            color: #ff4444;
-            margin-left: 0.25rem;
-        }
-
-        .form-input,
-        .form-select {
-            width: 100%;
-            padding: 1rem 1.25rem;
-            background: rgba(0, 217, 255, 0.05);
-            border: 2px solid rgba(0, 217, 255, 0.2);
-            border-radius: var(--radius-md);
-            color: var(--color-text);
-            font-size: 1rem;
-            font-family: 'Inter', sans-serif;
-            transition: all var(--transition-normal);
-        }
-
-        .form-input:focus,
-        .form-select:focus {
-            outline: none;
-            border-color: var(--color-primary);
-            background: rgba(0, 217, 255, 0.1);
-            box-shadow: 0 0 20px rgba(0, 217, 255, 0.2);
-        }
-
-        .form-input::placeholder {
-            color: var(--color-text-dark);
-        }
-
-        .form-select {
-            cursor: pointer;
-        }
-
-        .form-input.error {
-            border-color: #ff4444;
-        }
-
-        .error-message {
-            color: #ff4444;
-            font-size: 0.85rem;
-            margin-top: 0.5rem;
-            display: none;
-        }
-
-        .error-message.show {
-            display: block;
-        }
-
-        /* Summary Section */
-        .summary-card {
-            background: rgba(0, 217, 255, 0.05);
-            border: 2px solid rgba(0, 217, 255, 0.2);
-            border-radius: var(--radius-md);
-            padding: 2rem;
-            margin-bottom: 2rem;
-        }
-
-        .summary-title {
-            color: var(--color-secondary);
-            font-size: 1.5rem;
-            margin-bottom: 1.5rem;
-            text-align: center;
-        }
-
-        .summary-item {
-            display: flex;
-            justify-content: space-between;
-            padding: 1rem 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .summary-item:last-child {
-            border-bottom: none;
-        }
-
-        .summary-label {
-            color: var(--color-text-gray);
-            font-weight: 500;
-        }
-
-        .summary-value {
-            color: var(--color-text);
-            font-weight: 600;
-        }
-
-        .summary-highlight {
-            background: rgba(0, 255, 136, 0.1);
-            border: 1px solid rgba(0, 255, 136, 0.3);
-            border-radius: var(--radius-md);
-            padding: 1rem;
-            margin-top: 1rem;
-            text-align: center;
-        }
-
-        .summary-highlight .price {
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--color-secondary);
-            font-family: 'Orbitron', sans-serif;
-        }
-
+        *{margin:0;padding:0;box-sizing:border-box}
+        :root{
+            --color-bg:#000;--color-primary:#00d9ff;--color-secondary:#00ff88;
+            --color-text:#fff;--color-text-gray:#b0b0b0;--color-text-dark:#808080;
+            --gradient-primary:linear-gradient(135deg,#00d9ff 0%,#00ff88 100%);
+            --glow-primary:0 0 20px rgba(0,217,255,.5);
+            --glow-combined:0 0 30px rgba(0,217,255,.3),0 0 60px rgba(0,255,136,.2);
+            --radius-md:12px;--radius-lg:20px;--t:.3s ease
+        }
+        body{font-family:'Inter',sans-serif;background:var(--color-bg);color:var(--color-text);line-height:1.6;overflow-x:hidden;min-height:100vh}
+        h1,h2,h3,h4{font-family:'Orbitron',sans-serif}
+        .bg-animation{position:fixed;top:0;left:0;width:100%;height:100%;z-index:0;overflow:hidden}
+        .bg-animation::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;
+            background:radial-gradient(circle,rgba(0,217,255,.1) 0%,transparent 50%);animation:rotate 30s linear infinite}
+        @keyframes rotate{to{transform:rotate(360deg)}}
+        .header{position:relative;z-index:10;padding:2rem;text-align:center;background:linear-gradient(180deg,rgba(0,0,0,.9),transparent)}
+        .logo{font-size:2rem;font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin-bottom:.5rem}
+        .header-subtitle{color:var(--color-text-gray);font-size:1rem}
+        .container{position:relative;z-index:10;max-width:1200px;margin:0 auto;padding:2rem}
+        /* Progress */
+        .progress-container{margin-bottom:3rem}
+        .progress-steps{display:flex;justify-content:space-between;position:relative;max-width:800px;margin:0 auto 2rem}
+        .progress-line{position:absolute;top:25px;left:0;right:0;height:4px;background:rgba(0,217,255,.2);z-index:0}
+        .progress-line-fill{position:absolute;top:0;left:0;height:100%;background:var(--gradient-primary);transition:width .5s ease;box-shadow:var(--glow-primary)}
+        .progress-step{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;flex:1}
+        .step-circle{width:50px;height:50px;border-radius:50%;background:rgba(0,217,255,.1);border:3px solid rgba(0,217,255,.3);
+            display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.2rem;color:var(--color-text-gray);transition:all var(--t);margin-bottom:.75rem}
+        .progress-step.active .step-circle{background:var(--gradient-primary);border-color:var(--color-primary);color:var(--color-bg);box-shadow:var(--glow-combined);transform:scale(1.1)}
+        .progress-step.completed .step-circle{background:var(--color-secondary);border-color:var(--color-secondary);color:var(--color-bg)}
+        .progress-step.completed .step-circle::after{content:'✓'}
+        .step-label{font-size:.9rem;color:var(--color-text-gray);font-weight:500;text-align:center}
+        .progress-step.active .step-label{color:var(--color-primary);font-weight:600}
+        /* Card */
+        .form-card{background:rgba(255,255,255,.02);backdrop-filter:blur(20px);border:2px solid rgba(0,217,255,.2);
+            border-radius:var(--radius-lg);padding:3rem;box-shadow:var(--glow-combined);max-width:900px;margin:0 auto}
+        .form-step{display:none;animation:fadeIn .5s ease}
+        .form-step.active{display:block}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+        .step-title{font-size:2rem;color:var(--color-primary);margin-bottom:1rem;text-align:center}
+        .step-description{text-align:center;color:var(--color-text-gray);margin-bottom:2.5rem;font-size:1.1rem}
+        /* Packages */
+        .packages-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1.5rem;margin-bottom:2rem}
+        .package-card{background:rgba(0,217,255,.03);border:2px solid rgba(0,217,255,.2);border-radius:var(--radius-md);
+            padding:2rem;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden}
+        .package-card::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(0,217,255,.1),transparent);transition:left .5s ease}
+        .package-card:hover::before{left:100%}
+        .package-card:hover{transform:translateY(-10px);border-color:var(--color-primary);box-shadow:var(--glow-primary)}
+        .package-card.selected{background:rgba(0,217,255,.1);border-color:var(--color-primary);box-shadow:var(--glow-combined);transform:scale(1.02)}
+        .package-card.selected::after{content:'✓ Selected';position:absolute;top:1rem;right:1rem;background:var(--gradient-primary);
+            color:var(--color-bg);padding:.5rem 1rem;border-radius:20px;font-weight:600;font-size:.85rem}
+        .package-card.recommended{border-color:var(--color-secondary)}
+        .recommended-badge{position:absolute;top:-12px;left:50%;transform:translateX(-50%);background:var(--gradient-primary);
+            color:var(--color-bg);padding:.4rem 1.5rem;border-radius:20px;font-weight:700;font-size:.85rem;box-shadow:var(--glow-primary)}
+        .package-icon{font-size:4rem;text-align:center;margin-bottom:1rem}
+        .package-name{font-size:1.5rem;font-weight:700;color:var(--color-primary);text-align:center;margin-bottom:1rem}
+        .package-price{font-size:2.5rem;font-weight:900;font-family:'Orbitron',sans-serif;color:var(--color-secondary);text-align:center;margin-bottom:.5rem}
+        .package-original-price{text-decoration:line-through;color:var(--color-text-dark);font-size:1.2rem;margin-right:.5rem}
+        .package-duration{text-align:center;color:var(--color-text-gray);margin-bottom:1rem}
+        .package-features{list-style:none;margin-top:1.5rem}
+        .package-features li{padding:.5rem 0;color:var(--color-text-gray);display:flex;align-items:center}
+        .package-features li::before{content:'✓';color:var(--color-secondary);font-weight:bold;margin-right:.75rem;font-size:1.2rem}
+        /* Form */
+        .form-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-bottom:1.5rem}
+        .form-group{margin-bottom:1.5rem}
+        .form-group.full-width{grid-column:1/-1}
+        .form-label{display:block;margin-bottom:.5rem;color:var(--color-primary);font-weight:600;font-size:.95rem}
+        .required{color:#f44;margin-left:.25rem}
+        .form-input,.form-select{width:100%;padding:1rem 1.25rem;background:rgba(0,217,255,.05);border:2px solid rgba(0,217,255,.2);
+            border-radius:var(--radius-md);color:var(--color-text);font-size:1rem;font-family:'Inter',sans-serif;transition:all var(--t)}
+        .form-input:focus,.form-select:focus{outline:none;border-color:var(--color-primary);background:rgba(0,217,255,.1);box-shadow:0 0 20px rgba(0,217,255,.2)}
+        .form-input::placeholder{color:var(--color-text-dark)}
+        .form-select{cursor:pointer}
+        .form-select option{background:#111;color:var(--color-text)}
+        .form-input.error,.form-select.error{border-color:#f44}
+        .error-message{color:#f44;font-size:.85rem;margin-top:.5rem;display:none}
+        .error-message.show{display:block}
+        /* Summary */
+        .summary-card{background:rgba(0,217,255,.05);border:2px solid rgba(0,217,255,.2);border-radius:var(--radius-md);padding:2rem;margin-bottom:2rem}
+        .summary-title{color:var(--color-secondary);font-size:1.5rem;margin-bottom:1.5rem;text-align:center}
+        .summary-item{display:flex;justify-content:space-between;padding:1rem 0;border-bottom:1px solid rgba(255,255,255,.1)}
+        .summary-item:last-child{border-bottom:none}
+        .summary-label{color:var(--color-text-gray);font-weight:500}
+        .summary-value{color:var(--color-text);font-weight:600}
+        .summary-highlight{background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);border-radius:var(--radius-md);padding:1rem;margin-top:1rem;text-align:center}
+        .summary-highlight .price{font-size:2rem;font-weight:900;color:var(--color-secondary);font-family:'Orbitron',sans-serif}
         /* Buttons */
-        .btn-group {
-            display: flex;
-            gap: 1rem;
-            justify-content: space-between;
-            margin-top: 2.5rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 1rem 2rem;
-            border: none;
-            border-radius: var(--radius-md);
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 600;
-            font-size: 1rem;
-            cursor: pointer;
-            transition: all var(--transition-normal);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-            transition: left 0.5s ease;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn-primary {
-            background: var(--gradient-primary);
-            color: var(--color-bg);
-            box-shadow: var(--glow-primary);
-        }
-
-        .btn-primary:hover {
-            box-shadow: 0 0 30px rgba(0, 217, 255, 0.8);
-            transform: translateY(-2px);
-        }
-
-        .btn-primary:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-
-        .btn-secondary {
-            background: transparent;
-            color: var(--color-text);
-            border: 2px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--color-primary);
-            color: var(--color-primary);
-        }
-
-        .btn-submit {
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% {
-                box-shadow: 0 0 20px rgba(0, 217, 255, 0.5);
-            }
-            50% {
-                box-shadow: 0 0 40px rgba(0, 217, 255, 0.8), 0 0 60px rgba(0, 255, 136, 0.4);
-            }
-        }
-
-        /* Success Screen */
-        .success-container {
-            text-align: center;
-            padding: 3rem 2rem;
-        }
-
-        .success-icon {
-            font-size: 6rem;
-            margin-bottom: 2rem;
-            animation: successPop 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-        }
-
-        @keyframes successPop {
-            0% {
-                transform: scale(0) rotate(0deg);
-            }
-            50% {
-                transform: scale(1.2) rotate(180deg);
-            }
-            100% {
-                transform: scale(1) rotate(360deg);
-            }
-        }
-
-        .success-title {
-            font-size: 2.5rem;
-            color: var(--color-secondary);
-            margin-bottom: 1rem;
-        }
-
-        .success-message {
-            color: var(--color-text-gray);
-            font-size: 1.1rem;
-            line-height: 1.8;
-            margin-bottom: 2rem;
-        }
-
-        .success-email {
-            color: var(--color-primary);
-            font-weight: 600;
-        }
-
-        .success-details {
-            background: rgba(0, 217, 255, 0.05);
-            border: 1px solid rgba(0, 217, 255, 0.2);
-            border-radius: var(--radius-md);
-            padding: 2rem;
-            margin: 2rem 0;
-            text-align: left;
-        }
-
-        /* Back to Home Link */
-        .back-home {
-            position: fixed;
-            top: 2rem;
-            left: 2rem;
-            z-index: 100;
-        }
-
-        .back-home a {
-            color: var(--color-text-gray);
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            padding: 0.75rem 1.5rem;
-            background: rgba(0, 0, 0, 0.5);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 30px;
-            transition: all var(--transition-normal);
-        }
-
-        .back-home a:hover {
-            color: var(--color-primary);
-            border-color: var(--color-primary);
-            transform: translateX(-5px);
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                padding: 1rem;
-            }
-
-            .form-card {
-                padding: 2rem 1.5rem;
-            }
-
-            .packages-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .form-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .progress-steps {
-                padding: 0 1rem;
-            }
-
-            .step-label {
-                font-size: 0.75rem;
-            }
-
-            .step-circle {
-                width: 40px;
-                height: 40px;
-                font-size: 1rem;
-            }
-
-            .btn-group {
-                flex-direction: column;
-            }
-
-            .back-home {
-                position: static;
-                margin-bottom: 1rem;
-            }
-
-            .step-title {
-                font-size: 1.5rem;
-            }
+        .btn-group{display:flex;gap:1rem;justify-content:space-between;margin-top:2.5rem}
+        .btn{flex:1;padding:1rem 2rem;border:none;border-radius:var(--radius-md);font-family:'Orbitron',sans-serif;
+            font-weight:600;font-size:1rem;cursor:pointer;transition:all var(--t);position:relative;overflow:hidden}
+        .btn::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;
+            background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);transition:left .5s ease}
+        .btn:hover::before{left:100%}
+        .btn-primary{background:var(--gradient-primary);color:var(--color-bg);box-shadow:var(--glow-primary)}
+        .btn-primary:hover{box-shadow:0 0 30px rgba(0,217,255,.8);transform:translateY(-2px)}
+        .btn-primary:disabled{opacity:.5;cursor:not-allowed}
+        .btn-secondary{background:transparent;color:var(--color-text);border:2px solid rgba(255,255,255,.2)}
+        .btn-secondary:hover{border-color:var(--color-primary);color:var(--color-primary)}
+        .btn-submit{animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{box-shadow:0 0 20px rgba(0,217,255,.5)}50%{box-shadow:0 0 40px rgba(0,217,255,.8),0 0 60px rgba(0,255,136,.4)}}
+        /* Success */
+        .success-container{text-align:center;padding:3rem 2rem}
+        .success-icon{font-size:6rem;margin-bottom:2rem;animation:successPop .6s cubic-bezier(.68,-.55,.265,1.55)}
+        @keyframes successPop{0%{transform:scale(0) rotate(0)}50%{transform:scale(1.2) rotate(180deg)}100%{transform:scale(1) rotate(360deg)}}
+        .success-title{font-size:2.5rem;color:var(--color-secondary);margin-bottom:1rem}
+        .success-message{color:var(--color-text-gray);font-size:1.1rem;line-height:1.8;margin-bottom:2rem}
+        .success-email{color:var(--color-primary);font-weight:600}
+        .success-details{background:rgba(0,217,255,.05);border:1px solid rgba(0,217,255,.2);border-radius:var(--radius-md);padding:2rem;margin:2rem 0;text-align:left}
+        /* Back */
+        .back-home{position:fixed;top:2rem;left:2rem;z-index:100}
+        .back-home a{color:var(--color-text-gray);text-decoration:none;display:flex;align-items:center;gap:.5rem;
+            padding:.75rem 1.5rem;background:rgba(0,0,0,.5);backdrop-filter:blur(10px);
+            border:1px solid rgba(255,255,255,.1);border-radius:30px;transition:all var(--t)}
+        .back-home a:hover{color:var(--color-primary);border-color:var(--color-primary);transform:translateX(-5px)}
+        @media(max-width:768px){
+            .container{padding:1rem}.form-card{padding:2rem 1.5rem}.packages-grid{grid-template-columns:1fr}
+            .form-grid{grid-template-columns:1fr}.step-label{font-size:.75rem}.step-circle{width:40px;height:40px;font-size:1rem}
+            .btn-group{flex-direction:column}.back-home{position:static;margin-bottom:1rem}.step-title{font-size:1.5rem}
         }
     </style>
 </head>
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation"></div>
+<div class="bg-animation"></div>
 
-    <!-- Back to Home -->
-    <div class="back-home">
-        <a href='{% url "program_register" %}'>
-            <span>←</span>
-            <span>Back to Home</span>
-        </a>
+<div class="back-home">
+    <a href="{% url 'home' %}"><span>←</span><span>Back to Home</span></a>
+</div>
+
+<header class="header">
+    <h1 class="logo">QuantCrypt Training</h1>
+    <p class="header-subtitle">Professional Networking & Cybersecurity Training</p>
+</header>
+
+<div class="container">
+    <!-- Progress -->
+    <div class="progress-container">
+        <div class="progress-steps">
+            <div class="progress-line"><div class="progress-line-fill" id="progressFill" style="width:0%"></div></div>
+            <div class="progress-step active" id="progress-1"><div class="step-circle">1</div><div class="step-label">Select Package</div></div>
+            <div class="progress-step" id="progress-2"><div class="step-circle">2</div><div class="step-label">Personal Info</div></div>
+            <div class="progress-step" id="progress-3"><div class="step-circle">3</div><div class="step-label">Social Links</div></div>
+            <div class="progress-step" id="progress-4"><div class="step-circle">4</div><div class="step-label">Confirmation</div></div>
+        </div>
     </div>
 
-    <!-- Header -->
-    <header class="header">
-        <h1 class="logo">QuantCrypt Training</h1>
-        <p class="header-subtitle">Professional Networking & Cybersecurity Training</p>
-    </header>
+    <div class="form-card">
 
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Progress Steps -->
-        <div class="progress-container">
-            <div class="progress-steps">
-                <div class="progress-line">
-                    <div class="progress-line-fill" id="progressFill" style="width: 0%"></div>
+        <!-- ══════════════════════════════════════ -->
+        <!-- STEP 1 — Package                       -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="form-step active" id="step-1">
+            <h2 class="step-title">Choose Your Course Package</h2>
+            <p class="step-description">Select the training program that best fits your career goals</p>
+            <div class="packages-grid">
+                <div class="package-card" data-package="ccna" onclick="selectPackage('ccna','6500','CCNA Only')">
+                    <div class="package-icon">📡</div>
+                    <h3 class="package-name">CCNA Only</h3>
+                    <div class="package-price">₹6,500</div>
+                    <div class="package-duration">2 Months • 64 Days</div>
+                    <ul class="package-features">
+                        <li>Complete CCNA 200-301 Training</li><li>Hands-on Lab Access</li>
+                        <li>Real-world Projects</li><li>Certification Prep</li><li>Career Guidance</li>
+                    </ul>
                 </div>
-                
-                <div class="progress-step active" id="progress-1">
-                    <div class="step-circle">1</div>
-                    <div class="step-label">Select Package</div>
+                <div class="package-card recommended" data-package="combo" onclick="selectPackage('combo','10000','CCNA + Ethical Hacking')">
+                    <div class="recommended-badge">⭐ Most Popular</div>
+                    <div class="package-icon">🚀</div>
+                    <h3 class="package-name">CCNA + Ethical Hacking</h3>
+                    <div class="package-price"><span class="package-original-price">₹11,000</span>₹10,000</div>
+                    <div class="package-duration">4 Months • 128 Days</div>
+                    <ul class="package-features">
+                        <li>Complete CCNA + Ethical Hacking</li><li>Save ₹1,000</li>
+                        <li>Extended Lab Access</li><li>Advanced Projects</li><li>Job Placement Support</li>
+                    </ul>
                 </div>
-                
-                <div class="progress-step" id="progress-2">
-                    <div class="step-circle">2</div>
-                    <div class="step-label">Personal Info</div>
+                <div class="package-card" data-package="hacking" onclick="selectPackage('hacking','4500','Ethical Hacking Only')">
+                    <div class="package-icon">🛡️</div>
+                    <h3 class="package-name">Ethical Hacking Only</h3>
+                    <div class="package-price">₹4,500</div>
+                    <div class="package-duration">2 Months • 64 Days</div>
+                    <ul class="package-features">
+                        <li>Complete Ethical Hacking Course</li><li>Kali Linux Mastery</li>
+                        <li>Real Exploitation Labs</li><li>Python Hacking Tools</li><li>CVE Research Projects</li>
+                    </ul>
                 </div>
-                
-                <div class="progress-step" id="progress-3">
-                    <div class="step-circle">3</div>
-                    <div class="step-label">Social Links</div>
-                </div>
-                
-                <div class="progress-step" id="progress-4">
-                    <div class="step-circle">4</div>
-                    <div class="step-label">Confirmation</div>
-                </div>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-secondary" onclick="window.history.back()">Cancel</button>
+                <button class="btn btn-primary" id="step1Next" onclick="goToStep(2)" disabled>Continue to Personal Info</button>
             </div>
         </div>
 
-        <!-- Form Card -->
-        <div class="form-card">
-            <!-- Step 1: Package Selection -->
-            <div class="form-step active" id="step-1">
-                <h2 class="step-title">Choose Your Course Package</h2>
-                <p class="step-description">Select the training program that best fits your career goals</p>
+        <!-- ══════════════════════════════════════ -->
+        <!-- STEP 2 — Personal Info                 -->
+        <!-- The ONE Django form that wraps all steps -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="form-step" id="step-2">
+            <h2 class="step-title">Personal Information</h2>
+            <p class="step-description">Tell us about yourself</p>
 
-                <div class="packages-grid">
-                    <!-- CCNA Package -->
-                    <div class="package-card" data-package="ccna" onclick="selectPackage('ccna', '6500', 'CCNA Only')">
-                        <div class="package-icon">📡</div>
-                        <h3 class="package-name">CCNA Only</h3>
-                        <div class="package-price">₹6,500</div>
-                        <div class="package-duration">2 Months • 64 Days</div>
-                        <ul class="package-features">
-                            <li>Complete CCNA 200-301 Training</li>
-                            <li>Hands-on Lab Access</li>
-                            <li>Real-world Projects</li>
-                            <li>Certification Prep</li>
-                            <li>Career Guidance</li>
-                        </ul>
+            <form method="POST" action="{% url 'program_register' %}" id="mainForm">
+                {% csrf_token %}
+
+                <!-- ── Visible UI inputs (user types here) ── -->
+                <div class="form-grid">
+
+                    <div class="form-group">
+                        <label class="form-label">Full Name <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="ui_name" placeholder="John Doe">
+                        <div class="error-message" id="ui_nameError"></div>
                     </div>
 
-                    <!-- Combo Package -->
-                    <div class="package-card recommended" data-package="combo" onclick="selectPackage('combo', '10000', 'CCNA + Ethical Hacking')">
-                        <div class="recommended-badge">⭐ Most Popular</div>
-                        <div class="package-icon">🚀</div>
-                        <h3 class="package-name">CCNA + Ethical Hacking</h3>
-                        <div class="package-price">
-                            <span class="package-original-price">₹11,000</span>
-                            ₹10,000
-                        </div>
-                        <div class="package-duration">4 Months • 128 Days</div>
-                        <ul class="package-features">
-                            <li>Complete CCNA + Ethical Hacking</li>
-                            <li>Save ₹1,000</li>
-                            <li>Extended Lab Access</li>
-                            <li>Advanced Projects</li>
-                            <li>Job Placement Support</li>
-                        </ul>
+                    <div class="form-group">
+                        <label class="form-label">Age <span class="required">*</span></label>
+                        <input type="number" class="form-input" id="ui_age" min="16" max="100" placeholder="21">
+                        <div class="error-message" id="ui_ageError"></div>
                     </div>
 
-                    <!-- Ethical Hacking Package -->
-                    <div class="package-card" data-package="hacking" onclick="selectPackage('hacking', '4500', 'Ethical Hacking Only')">
-                        <div class="package-icon">🛡️</div>
-                        <h3 class="package-name">Ethical Hacking Only</h3>
-                        <div class="package-price">₹4,500</div>
-                        <div class="package-duration">2 Months • 64 Days</div>
-                        <ul class="package-features">
-                            <li>Complete Ethical Hacking Course</li>
-                            <li>Kali Linux Mastery</li>
-                            <li>Real Exploitation Labs</li>
-                            <li>Python Hacking Tools</li>
-                            <li>CVE Research Projects</li>
-                        </ul>
+                    <div class="form-group full-width">
+                        <label class="form-label">Email Address <span class="required">*</span></label>
+                        <input type="email" class="form-input" id="ui_email" placeholder="you@example.com">
+                        <div class="error-message" id="ui_emailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Phone Number <span class="required">*</span></label>
+                        <input type="tel" class="form-input" id="ui_phone" placeholder="+91 9876543210">
+                        <div class="error-message" id="ui_phoneError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Gender <span class="required">*</span></label>
+                        <select class="form-select" id="ui_gender">
+                            <option value="">Select Gender</option>
+                            <option value="male">Male</option>
+                            <option value="female">Female</option>
+                            <option value="other">Other</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
+                        </select>
+                        <div class="error-message" id="ui_genderError"></div>
+                    </div>
+
+                    <div class="form-group full-width">
+                        <label class="form-label">College / University <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="ui_college" placeholder="ABC Institute of Technology">
+                        <div class="error-message" id="ui_collegeError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Department <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="ui_department" placeholder="Computer Science">
+                        <div class="error-message" id="ui_departmentError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Year of Study <span class="required">*</span></label>
+                        <select class="form-select" id="ui_year">
+                            <option value="">Select Year</option>
+                            <option value="1st Year">1st Year</option>
+                            <option value="2nd Year">2nd Year</option>
+                            <option value="3rd Year">3rd Year</option>
+                            <option value="4th Year">4th Year</option>
+                            <option value="Graduated">Graduated</option>
+                            <option value="Working">Working Professional</option>
+                        </select>
+                        <div class="error-message" id="ui_yearError"></div>
                     </div>
                 </div>
+
+                <!-- ── Hidden inputs that actually POST to Django ── -->
+                <!-- names match exactly what views.py reads via request.POST.get(...) -->
+                <input type="hidden" name="name"       id="h_name">
+                <input type="hidden" name="age"        id="h_age">
+                <input type="hidden" name="email"      id="h_email">
+                <input type="hidden" name="phone"      id="h_phone">
+                <input type="hidden" name="gender"     id="h_gender">
+                <input type="hidden" name="college"    id="h_college">
+                <input type="hidden" name="department" id="h_department">
+                <input type="hidden" name="year"       id="h_year">
+                <input type="hidden" name="linkedin"   id="h_linkedin">
+                <input type="hidden" name="github"     id="h_github">
+                <input type="hidden" name="portfolio"  id="h_portfolio">
+                <input type="hidden" name="twitter"    id="h_twitter">
+
+                <!-- Submit button is on Step 4 — this form tag stays open until </form> below -->
 
                 <div class="btn-group">
-                    <button class="btn btn-secondary" onclick="window.location.href='complete-website.html'">Cancel</button>
-                    <button class="btn btn-primary" id="step1Next" onclick="nextStep()" disabled>Continue to Personal Info</button>
+                    <button type="button" class="btn btn-secondary" onclick="goToStep(1)">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="step2Next()">Continue to Social Links</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- STEP 3 — Social Links                  -->
+        <!-- These inputs are OUTSIDE the form tag  -->
+        <!-- but their values are copied to hidden  -->
+        <!-- fields before submit.                  -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="form-step" id="step-3">
+            <h2 class="step-title">Social Profiles</h2>
+            <p class="step-description">Connect your professional profiles (optional but recommended)</p>
+
+            <div class="form-group">
+                <label class="form-label">LinkedIn Profile URL</label>
+                <input type="url" class="form-input" id="ui_linkedin" placeholder="https://linkedin.com/in/yourprofile">
+            </div>
+            <div class="form-group">
+                <label class="form-label">GitHub Profile URL</label>
+                <input type="url" class="form-input" id="ui_github" placeholder="https://github.com/yourusername">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Portfolio Website</label>
+                <input type="url" class="form-input" id="ui_portfolio" placeholder="https://yourwebsite.com">
+            </div>
+            <div class="form-group">
+                <label class="form-label">Twitter / X Handle</label>
+                <input type="text" class="form-input" id="ui_twitter" placeholder="@yourusername">
+            </div>
+
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="goToStep(2)">Previous</button>
+                <button type="button" class="btn btn-primary" onclick="step3Next()">Review & Confirm</button>
+            </div>
+        </div>
+
+        <!-- ══════════════════════════════════════ -->
+        <!-- STEP 4 — Confirmation                  -->
+        <!-- ══════════════════════════════════════ -->
+        <div class="form-step" id="step-4">
+            <h2 class="step-title">Review Your Registration</h2>
+            <p class="step-description">Please verify all information before submitting</p>
+
+            <div class="summary-card">
+                <h3 class="summary-title">Registration Summary</h3>
+                <div class="summary-item"><span class="summary-label">Package:</span>    <span class="summary-value" id="s_package">-</span></div>
+                <div class="summary-item"><span class="summary-label">Full Name:</span>  <span class="summary-value" id="s_name">-</span></div>
+                <div class="summary-item"><span class="summary-label">Email:</span>      <span class="summary-value" id="s_email">-</span></div>
+                <div class="summary-item"><span class="summary-label">Phone:</span>      <span class="summary-value" id="s_phone">-</span></div>
+                <div class="summary-item"><span class="summary-label">Age:</span>        <span class="summary-value" id="s_age">-</span></div>
+                <div class="summary-item"><span class="summary-label">College:</span>    <span class="summary-value" id="s_college">-</span></div>
+                <div class="summary-item"><span class="summary-label">Department:</span> <span class="summary-value" id="s_dept">-</span></div>
+                <div class="summary-item"><span class="summary-label">Year:</span>       <span class="summary-value" id="s_year">-</span></div>
+                <div class="summary-highlight">
+                    <div style="color:var(--color-text-gray);margin-bottom:.5rem">Total Course Fee</div>
+                    <div class="price" id="s_price">₹0</div>
                 </div>
             </div>
 
-            <!-- Step 2: Personal Information -->
-            <div class="form-step" id="step-2">
-                <h2 class="step-title">Personal Information</h2>
-                <p class="step-description">Tell us about yourself</p>
-
-                <!-- MAIN DJANGO FORM -->
-                <form method="POST" action="{% url 'program_register' %}" id="programRegisterForm">
-                    {% csrf_token %}
-
-                    <div class="form-grid">
-
-                        <!-- UI Fields -->
-                        <div class="form-group">
-                            <label class="form-label">Full Name <span class="required">*</span></label>
-                            <input type="text" class="form-input" id="fullName" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Age</label>
-                            <input type="number" class="form-input" id="age">
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label class="form-label">Email Address <span class="required">*</span></label>
-                            <input type="email" class="form-input" id="email" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Phone Number <span class="required">*</span></label>
-                            <input type="tel" class="form-input" id="phone" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Gender</label>
-                            <select class="form-select" id="gender">
-                                <option value="">Select Gender</option>
-                                <option>Male</option>
-                                <option>Female</option>
-                                <option>Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label class="form-label">College/University <span class="required">*</span></label>
-                            <input type="text" class="form-input" id="college" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Department</label>
-                            <input type="text" class="form-input" id="department">
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Year of Study <span class="required">*</span></label>
-                            <select class="form-select" id="year" required>
-                                <option value="">Select Year</option>
-                                <option>1st Year</option>
-                                <option>2nd Year</option>
-                                <option>3rd Year</option>
-                                <option>4th Year</option>
-                                <option>Graduated</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <!-- 🔒 Hidden fields (ONLY these go to Django model) -->
-                    <input type="hidden" name="name" id="form_name">
-                    <input type="hidden" name="email" id="form_email">
-                    <input type="hidden" name="number" id="form_number">
-                    <input type="hidden" name="college" id="form_college">
-                    <input type="hidden" name="year" id="form_year">
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                        <button type="button" class="btn btn-primary" onclick="submitProgramForm()">
-                            Submit Registration
-                        </button>
-                    </div>
-                </form>
+            <div class="btn-group">
+                <button type="button" class="btn btn-secondary" onclick="goToStep(3)">Previous</button>
+                <!-- Calls finalSubmit() which syncs all hidden fields then submits #mainForm -->
+                <button type="button" class="btn btn-primary btn-submit" onclick="finalSubmit()">Complete Registration 🚀</button>
             </div>
+        </div>
 
-            <!-- Step 3: Social Links -->
-            <div class="form-step" id="step-3">
-                <h2 class="step-title">Social Profiles</h2>
-                <p class="step-description">
-                    Connect your professional profiles (optional but recommended)
+        <!-- Success (shown client-side after Django redirect lands on registration_success) -->
+        <div class="form-step" id="step-success">
+            <div class="success-container">
+                <div class="success-icon">🎉</div>
+                <h2 class="success-title">Registration Successful!</h2>
+                <p class="success-message">
+                    Thank you for enrolling in QuantCrypt Training!<br><br>
+                    We've sent a confirmation to <span class="success-email" id="s_confirm_email">your email</span>.
                 </p>
-
-                <!-- NO METHOD / ACTION (handled in final step) -->
-                <form id="socialLinksForm">
-
-                    <div class="form-group">
-                        <label class="form-label">LinkedIn Profile URL</label>
-                        <input type="url" class="form-input" id="linkedin"
-                            placeholder="https://linkedin.com/in/yourprofile">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">GitHub Profile URL</label>
-                        <input type="url" class="form-input" id="github"
-                            placeholder="https://github.com/yourusername">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Portfolio Website</label>
-                        <input type="url" class="form-input" id="portfolio"
-                            placeholder="https://yourwebsite.com">
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Twitter / X Handle</label>
-                        <input type="text" class="form-input" id="twitter"
-                            placeholder="@yourusername">
-                    </div>
-
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-secondary" onclick="prevStep()">
-                            Previous
-                        </button>
-                        <button type="button" class="btn btn-primary" onclick="nextStep()">
-                            Review & Confirm
-                        </button>
-                    </div>
-                </form>
-            </div>
-
-            <!-- Step 4: Confirmation -->
-            <div class="form-step" id="step-4">
-                <h2 class="step-title">Review Your Registration</h2>
-                <p class="step-description">Please verify all information before submitting</p>
-
-                <div class="summary-card">
-                    <h3 class="summary-title">Registration Summary</h3>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Selected Package:</span>
-                        <span class="summary-value" id="summaryPackage">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Full Name:</span>
-                        <span class="summary-value" id="summaryName">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Email:</span>
-                        <span class="summary-value" id="summaryEmail">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Phone:</span>
-                        <span class="summary-value" id="summaryPhone">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Age:</span>
-                        <span class="summary-value" id="summaryAge">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Institution:</span>
-                        <span class="summary-value" id="summaryCollege">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Department:</span>
-                        <span class="summary-value" id="summaryDepartment">-</span>
-                    </div>
-                    
-                    <div class="summary-item">
-                        <span class="summary-label">Year:</span>
-                        <span class="summary-value" id="summaryYear">-</span>
-                    </div>
-
-                    <div class="summary-highlight">
-                        <div style="color: var(--color-text-gray); margin-bottom: 0.5rem;">Total Course Fee</div>
-                        <div class="price" id="summaryPrice">₹0</div>
-                    </div>
+                <div class="success-details">
+                    <h4 style="color:var(--color-secondary);margin-bottom:1rem">What's Next?</h4>
+                    <ul style="list-style:none;color:var(--color-text-gray);line-height:2">
+                        <li>✓ Check your email for course details and payment instructions</li>
+                        <li>✓ Our team will contact you within 24 hours</li>
+                        <li>✓ Complete the payment to secure your spot</li>
+                        <li>✓ Join our WhatsApp / Telegram group for updates</li>
+                    </ul>
                 </div>
-
                 <div class="btn-group">
-                    <button type="button" class="btn btn-secondary" onclick="prevStep()">Previous</button>
-                    <button type="button" class="btn btn-primary btn-submit" onclick="submitRegistration()">Complete Registration 🚀</button>
-                </div>
-            </div>
-
-            <!-- Success Screen -->
-            <div class="form-step" id="step-success">
-                <div class="success-container">
-                    <div class="success-icon">🎉</div>
-                    <h2 class="success-title">Registration Successful!</h2>
-                    <p class="success-message">
-                        Thank you for enrolling in QuantCrypt Training!<br><br>
-                        We've sent a confirmation email to <span class="success-email" id="confirmEmail">-</span> with your course details and next steps.
-                    </p>
-
-                    <div class="success-details">
-                        <h4 style="color: var(--color-secondary); margin-bottom: 1rem;">What's Next?</h4>
-                        <ul style="list-style: none; color: var(--color-text-gray); line-height: 2;">
-                            <li>✓ Check your email for course details and payment instructions</li>
-                            <li>✓ Our team will contact you within 24 hours</li>
-                            <li>✓ Complete the payment to secure your spot</li>
-                            <li>✓ Join our WhatsApp/Telegram group for updates</li>
-                            <li>✓ Access to course materials after payment confirmation</li>
-                        </ul>
-                    </div>
-
-                    <div class="btn-group">
-                        <button class="btn btn-primary" onclick="window.location.href='complete-website.html'">Back to Home</button>
-                        <button class="btn btn-secondary" onclick="window.print()">Print Registration</button>
-                    </div>
+                    <button class="btn btn-primary" onclick="window.location.href='/'">Back to Home</button>
+                    <button class="btn btn-secondary" onclick="window.print()">Print</button>
                 </div>
             </div>
         </div>
-    </div>
 
-    <script>
-        // Registration Data
-        let registrationData = {
-            package: '',
-            packageName: '',
-            price: '',
-            fullName: '',
-            age: '',
-            email: '',
-            phone: '',
-            gender: '',
-            college: '',
-            department: '',
-            year: '',
-            linkedin: '',
-            github: '',
-            portfolio: '',
-            twitter: ''
-        };
+    </div><!-- /.form-card -->
+</div><!-- /.container -->
 
-        let currentStep = 1;
+<script>
+// ─── State ────────────────────────────────────────────────────────────────────
+const rd = {
+    package:'', packageName:'', price:'',
+    name:'', age:'', email:'', phone:'', gender:'',
+    college:'', department:'', year:'',
+    linkedin:'', github:'', portfolio:'', twitter:''
+};
+let currentStep = 1;
 
-        // Package Selection
-        function selectPackage(packageType, price, packageName) {
-            // Remove selection from all packages
-            document.querySelectorAll('.package-card').forEach(card => {
-                card.classList.remove('selected');
-            });
+// ─── Step Navigation ──────────────────────────────────────────────────────────
+function goToStep(n) {
+    document.querySelectorAll('.form-step').forEach(s => s.classList.remove('active'));
+    document.getElementById('step-' + n).classList.add('active');
+    currentStep = n;
+    updateProgress();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
 
-            // Select clicked package
-            document.querySelector(`[data-package="${packageType}"]`).classList.add('selected');
-
-            // Enable next button
-            document.getElementById('step1Next').disabled = false;
-
-            // Store package data
-            registrationData.package = packageType;
-            registrationData.price = price;
-            registrationData.packageName = packageName;
-        }
-
-        // Navigation Functions
-        function nextStep() {
-            if (currentStep < 4) {
-                currentStep++;
-                showStep(currentStep);
-                updateProgress();
-            }
-        }
-
-        function prevStep() {
-            if (currentStep > 1) {
-                currentStep--;
-                showStep(currentStep);
-                updateProgress();
-            }
-        }
-
-        function showStep(stepNumber) {
-            // Hide all steps
-            document.querySelectorAll('.form-step').forEach(step => {
-                step.classList.remove('active');
-            });
-
-            // Show target step
-            document.getElementById(`step-${stepNumber}`).classList.add('active');
-
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function updateProgress() {
-            const progressWidth = ((currentStep - 1) / 3) * 100;
-            document.getElementById('progressFill').style.width = progressWidth + '%';
-
-            // Update progress steps
-            for (let i = 1; i <= 4; i++) {
-                const progressStep = document.getElementById(`progress-${i}`);
-                
-                if (i < currentStep) {
-                    progressStep.classList.add('completed');
-                    progressStep.classList.remove('active');
-                } else if (i === currentStep) {
-                    progressStep.classList.add('active');
-                    progressStep.classList.remove('completed');
-                } else {
-                    progressStep.classList.remove('active', 'completed');
-                }
-            }
-        }
-
-        // Validation Functions
-        function validateAndNext(step) {
-            if (step === 2) {
-                if (validatePersonalInfo()) {
-                    storePersonalInfo();
-                    nextStep();
-                }
-            } else if (step === 3) {
-                storeSocialLinks();
-                updateSummary();
-                nextStep();
-            }
-        }
-
-        function validatePersonalInfo() {
-            let isValid = true;
-
-            // Validate Full Name
-            const fullName = document.getElementById('fullName').value.trim();
-            if (fullName.length < 3) {
-                showError('fullName', 'Please enter your full name (minimum 3 characters)');
-                isValid = false;
-            } else {
-                hideError('fullName');
-            }
-
-            // Validate Age
-            const age = parseInt(document.getElementById('age').value);
-            if (isNaN(age) || age < 16 || age > 100) {
-                showError('age', 'Please enter a valid age (16-100)');
-                isValid = false;
-            } else {
-                hideError('age');
-            }
-
-            // Validate Email
-            const email = document.getElementById('email').value.trim();
-            if (!isValidEmail(email)) {
-                showError('email', 'Please enter a valid email address');
-                isValid = false;
-            } else {
-                hideError('email');
-            }
-
-            // Validate Phone
-            const phone = document.getElementById('phone').value.trim();
-            if (phone.length < 10) {
-                showError('phone', 'Please enter a valid phone number');
-                isValid = false;
-            } else {
-                hideError('phone');
-            }
-
-            // Validate Gender
-            const gender = document.getElementById('gender').value;
-            if (!gender) {
-                showError('gender', 'Please select your gender');
-                isValid = false;
-            } else {
-                hideError('gender');
-            }
-
-            // Validate College
-            const college = document.getElementById('college').value.trim();
-            if (college.length < 3) {
-                showError('college', 'Please enter your college/university name');
-                isValid = false;
-            } else {
-                hideError('college');
-            }
-
-            // Validate Department
-            const department = document.getElementById('department').value.trim();
-            if (department.length < 2) {
-                showError('department', 'Please enter your department');
-                isValid = false;
-            } else {
-                hideError('department');
-            }
-
-            // Validate Year
-            const year = document.getElementById('year').value;
-            if (!year) {
-                showError('year', 'Please select your year of study');
-                isValid = false;
-            } else {
-                hideError('year');
-            }
-
-            return isValid;
-        }
-
-        function showError(fieldId, message) {
-            const input = document.getElementById(fieldId);
-            const errorDiv = document.getElementById(fieldId + 'Error');
-            
-            input.classList.add('error');
-            errorDiv.textContent = message;
-            errorDiv.classList.add('show');
-        }
-
-        function hideError(fieldId) {
-            const input = document.getElementById(fieldId);
-            const errorDiv = document.getElementById(fieldId + 'Error');
-            
-            input.classList.remove('error');
-            errorDiv.classList.remove('show');
-        }
-
-        function isValidEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function storePersonalInfo() {
-            registrationData.fullName = document.getElementById('fullName').value.trim();
-            registrationData.age = document.getElementById('age').value;
-            registrationData.email = document.getElementById('email').value.trim();
-            registrationData.phone = document.getElementById('phone').value.trim();
-            registrationData.gender = document.getElementById('gender').value;
-            registrationData.college = document.getElementById('college').value.trim();
-            registrationData.department = document.getElementById('department').value.trim();
-            registrationData.year = document.getElementById('year').value;
-        }
-
-        function storeSocialLinks() {
-            registrationData.linkedin = document.getElementById('linkedin').value.trim();
-            registrationData.github = document.getElementById('github').value.trim();
-            registrationData.portfolio = document.getElementById('portfolio').value.trim();
-            registrationData.twitter = document.getElementById('twitter').value.trim();
-        }
-
-        function updateSummary() {
-            document.getElementById('summaryPackage').textContent = registrationData.packageName;
-            document.getElementById('summaryName').textContent = registrationData.fullName;
-            document.getElementById('summaryEmail').textContent = registrationData.email;
-            document.getElementById('summaryPhone').textContent = registrationData.phone;
-            document.getElementById('summaryAge').textContent = registrationData.age + ' years';
-            document.getElementById('summaryCollege').textContent = registrationData.college;
-            document.getElementById('summaryDepartment').textContent = registrationData.department;
-            document.getElementById('summaryYear').textContent = registrationData.year;
-            document.getElementById('summaryPrice').textContent = '₹' + parseInt(registrationData.price).toLocaleString();
-        }
-
-        function submitRegistration() {
-            // Log registration data (in real app, send to backend)
-            console.log('Registration Data:', registrationData);
-
-            // Update confirmation email
-            document.getElementById('confirmEmail').textContent = registrationData.email;
-
-            // Show success screen
-            document.getElementById('step-4').classList.remove('active');
-            document.getElementById('step-success').classList.add('active');
-
-            // Update progress to show completion
-            document.getElementById('progressFill').style.width = '100%';
-            document.querySelectorAll('.progress-step').forEach(step => {
-                step.classList.add('completed');
-                step.classList.remove('active');
-            });
-
-            // In a real application, you would send this data to your backend:
-            // fetch('/api/register', {
-            //     method: 'POST',
-            //     headers: { 'Content-Type': 'application/json' },
-            //     body: JSON.stringify(registrationData)
-            // })
-            // .then(response => response.json())
-            // .then(data => {
-            //     // Handle success
-            // })
-            // .catch(error => {
-            //     // Handle error
-            // });
-        }
-
-        // Initialize
-        updateProgress();
-    </script>
-    <script>
-    function submitProgramForm() {
-        document.getElementById('form_name').value =
-            document.getElementById('fullName').value;
-
-        document.getElementById('form_email').value =
-            document.getElementById('email').value;
-
-        document.getElementById('form_number').value =
-            document.getElementById('phone').value;
-
-        document.getElementById('form_college').value =
-            document.getElementById('college').value;
-
-        document.getElementById('form_year').value =
-            document.getElementById('year').value;
-
-        document.getElementById('programRegisterForm').submit();
+function updateProgress() {
+    document.getElementById('progressFill').style.width = ((currentStep - 1) / 3 * 100) + '%';
+    for (let i = 1; i <= 4; i++) {
+        const el = document.getElementById('progress-' + i);
+        el.classList.toggle('completed', i < currentStep);
+        el.classList.toggle('active',    i === currentStep);
     }
-    </script>
-    <script>
-    function syncSocialLinks() {
-        document.getElementById('form_linkedin').value =
-            document.getElementById('linkedin').value;
+}
 
-        document.getElementById('form_github').value =
-            document.getElementById('github').value;
+// ─── Package Selection ────────────────────────────────────────────────────────
+function selectPackage(pkg, price, name) {
+    document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
+    document.querySelector('[data-package="' + pkg + '"]').classList.add('selected');
+    document.getElementById('step1Next').disabled = false;
+    rd.package = pkg; rd.price = price; rd.packageName = name;
+}
 
-        document.getElementById('form_portfolio').value =
-            document.getElementById('portfolio').value;
+// ─── Validation helpers ───────────────────────────────────────────────────────
+function fieldErr(id, msg) {
+    document.getElementById(id).classList.add('error');
+    const e = document.getElementById(id + 'Error');
+    e.textContent = msg; e.classList.add('show');
+}
+function fieldOk(id) {
+    document.getElementById(id).classList.remove('error');
+    document.getElementById(id + 'Error').classList.remove('show');
+}
+function validEmail(v) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
 
-        document.getElementById('form_twitter').value =
-            document.getElementById('twitter').value;
-    }
-    </script>
+// ─── Step 2 → validate personal info then advance ────────────────────────────
+function step2Next() {
+    let ok = true;
 
+    const name = document.getElementById('ui_name').value.trim();
+    if (name.length < 3) { fieldErr('ui_name', 'Min 3 characters required'); ok = false; } else fieldOk('ui_name');
 
+    const age = parseInt(document.getElementById('ui_age').value);
+    if (isNaN(age) || age < 16 || age > 100) { fieldErr('ui_age', 'Enter a valid age (16–100)'); ok = false; } else fieldOk('ui_age');
+
+    const email = document.getElementById('ui_email').value.trim();
+    if (!validEmail(email)) { fieldErr('ui_email', 'Enter a valid email address'); ok = false; } else fieldOk('ui_email');
+
+    const phone = document.getElementById('ui_phone').value.trim();
+    if (phone.replace(/\D/g,'').length < 10) { fieldErr('ui_phone', 'Enter a valid phone number (min 10 digits)'); ok = false; } else fieldOk('ui_phone');
+
+    const gender = document.getElementById('ui_gender').value;
+    if (!gender) { fieldErr('ui_gender', 'Please select your gender'); ok = false; } else fieldOk('ui_gender');
+
+    const college = document.getElementById('ui_college').value.trim();
+    if (college.length < 3) { fieldErr('ui_college', 'Enter your college name'); ok = false; } else fieldOk('ui_college');
+
+    const dept = document.getElementById('ui_department').value.trim();
+    if (dept.length < 2) { fieldErr('ui_department', 'Enter your department'); ok = false; } else fieldOk('ui_department');
+
+    const year = document.getElementById('ui_year').value;
+    if (!year) { fieldErr('ui_year', 'Please select your year'); ok = false; } else fieldOk('ui_year');
+
+    if (!ok) return;
+
+    // Store in state
+    rd.name = name; rd.age = age; rd.email = email; rd.phone = phone;
+    rd.gender = gender; rd.college = college; rd.department = dept; rd.year = year;
+
+    goToStep(3);
+}
+
+// ─── Step 3 → store social links and show summary ────────────────────────────
+function step3Next() {
+    rd.linkedin  = document.getElementById('ui_linkedin').value.trim();
+    rd.github    = document.getElementById('ui_github').value.trim();
+    rd.portfolio = document.getElementById('ui_portfolio').value.trim();
+    rd.twitter   = document.getElementById('ui_twitter').value.trim();
+
+    // Populate summary
+    document.getElementById('s_package').textContent = rd.packageName;
+    document.getElementById('s_name').textContent    = rd.name;
+    document.getElementById('s_email').textContent   = rd.email;
+    document.getElementById('s_phone').textContent   = rd.phone;
+    document.getElementById('s_age').textContent     = rd.age + ' years';
+    document.getElementById('s_college').textContent = rd.college;
+    document.getElementById('s_dept').textContent    = rd.department;
+    document.getElementById('s_year').textContent    = rd.year;
+    document.getElementById('s_price').textContent   = '₹' + parseInt(rd.price).toLocaleString();
+
+    goToStep(4);
+}
+
+// ─── Final submit: sync all hidden inputs → submit #mainForm to Django ────────
+function finalSubmit() {
+    // Personal info
+    document.getElementById('h_name').value       = rd.name;
+    document.getElementById('h_age').value        = rd.age;
+    document.getElementById('h_email').value      = rd.email;
+    document.getElementById('h_phone').value      = rd.phone;       // name="phone" → views reads "phone"
+    document.getElementById('h_gender').value     = rd.gender;
+    document.getElementById('h_college').value    = rd.college;
+    document.getElementById('h_department').value = rd.department;
+    document.getElementById('h_year').value       = rd.year;
+
+    // Social links
+    document.getElementById('h_linkedin').value  = rd.linkedin;
+    document.getElementById('h_github').value    = rd.github;
+    document.getElementById('h_portfolio').value = rd.portfolio;
+    document.getElementById('h_twitter').value   = rd.twitter;
+
+    // Submit the form — Django handles the redirect to registration_success
+    document.getElementById('mainForm').submit();
+}
+
+// Init
+updateProgress();
+</script>
 </body>
 </html>
