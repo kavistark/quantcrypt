@@ -289,7 +289,7 @@
                 <input type="hidden" name="github"     id="h_github">
                 <input type="hidden" name="portfolio"  id="h_portfolio">
                 <input type="hidden" name="twitter"    id="h_twitter">
-
+                <input type="hidden" name="package"    id="h_package">
                 <!-- Submit button is on Step 4 — this form tag stays open until </form> below -->
 
                 <div class="btn-group">
@@ -419,13 +419,15 @@ function updateProgress() {
 }
 
 // ─── Package Selection ────────────────────────────────────────────────────────
-function selectPackage(pkg, price, name) {
+
+
+// ✅ AFTER — renamed to 'packageName' to be explicit and safe
+function selectPackage(pkg, price, packageName) {
     document.querySelectorAll('.package-card').forEach(c => c.classList.remove('selected'));
     document.querySelector('[data-package="' + pkg + '"]').classList.add('selected');
     document.getElementById('step1Next').disabled = false;
-    rd.package = pkg; rd.price = price; rd.packageName = name;
+    rd.package = pkg; rd.price = price; rd.packageName = packageName;
 }
-
 // ─── Validation helpers ───────────────────────────────────────────────────────
 function fieldErr(id, msg) {
     document.getElementById(id).classList.add('error');
@@ -513,7 +515,7 @@ function finalSubmit() {
     document.getElementById('h_github').value    = rd.github;
     document.getElementById('h_portfolio').value = rd.portfolio;
     document.getElementById('h_twitter').value   = rd.twitter;
-
+    document.getElementById('h_package').value   = rd.package;
     // Submit the form — Django handles the redirect to registration_success
     document.getElementById('mainForm').submit();
 }

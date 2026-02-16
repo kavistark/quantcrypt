@@ -148,7 +148,7 @@ def program_register(request):
         github     = request.POST.get("github",     "").strip()
         portfolio  = request.POST.get("portfolio",  "").strip()
         twitter    = request.POST.get("twitter",    "").strip()
-
+        package    = request.POST.get("package",    "").strip()
         # Required-field validation
         required = {
             "Name":       name,
@@ -159,6 +159,7 @@ def program_register(request):
             "Age":        age,
             "Gender":     gender,
             "Department": department,
+            
         }
         missing = [label for label, val in required.items() if not val]
         if missing:
@@ -189,6 +190,7 @@ def program_register(request):
             age        = age_int,
             gender     = gender,
             department = department,
+            package    = package,
             linkedin   = linkedin  or None,
             github     = github    or None,
             portfolio  = portfolio or None,

@@ -57,6 +57,12 @@ class ServiceInterest(models.Model):
 
 
 class ProgramRegister(models.Model):
+    PACKAGE_CHOICES = [
+        ('ccna',    'CCNA Only'),
+        ('combo',   'CCNA + Ethical Hacking'),
+        ('hacking', 'Ethical Hacking Only'),
+    ]
+
     YEAR_CHOICES = [
         ('1st Year', '1st Year'),
         ('2nd Year', '2nd Year'),
@@ -72,7 +78,7 @@ class ProgramRegister(models.Model):
         ('other', 'Other'),
         ('prefer-not-to-say', 'Prefer not to say'),
     ]
-
+    package = models.CharField(max_length=20, choices=PACKAGE_CHOICES, blank=True)
     name = models.CharField(max_length=150)
     age = models.PositiveIntegerField()
     email = models.EmailField(unique=True)
