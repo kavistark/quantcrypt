@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-{% load static %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -1188,6 +1187,321 @@
                 padding: 1.5rem;
             }
         }
+
+        /* Registration Form Styles */
+        .registration-modal .modal-content {
+            max-width: 800px;
+        }
+
+        .form-step {
+            display: none;
+            animation: fadeInStep 0.4s ease;
+        }
+
+        .form-step.active {
+            display: block;
+        }
+
+        @keyframes fadeInStep {
+            from {
+                opacity: 0;
+                transform: translateX(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .package-selection {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .package-option {
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            cursor: pointer;
+            transition: all var(--transition-normal);
+            text-align: center;
+            position: relative;
+        }
+
+        .package-option:hover {
+            background: rgba(0, 217, 255, 0.1);
+            border-color: var(--color-primary);
+            transform: translateY(-5px);
+        }
+
+        .package-option.selected {
+            background: rgba(0, 217, 255, 0.15);
+            border-color: var(--color-primary);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.3);
+        }
+
+        .package-option.selected::after {
+            content: '✓';
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: var(--gradient-primary);
+            color: var(--color-bg);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+
+        .package-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .package-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--color-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .package-price {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--color-secondary);
+            margin-bottom: 0.5rem;
+            font-family: 'Orbitron', sans-serif;
+        }
+
+        .package-duration {
+            font-size: 0.9rem;
+            color: var(--color-text-gray);
+        }
+
+        .package-discount {
+            background: var(--gradient-primary);
+            color: var(--color-bg);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+            display: inline-block;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--color-primary);
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(0, 217, 255, 0.05);
+            border: 2px solid rgba(0, 217, 255, 0.2);
+            border-radius: var(--radius-md);
+            color: var(--color-text);
+            font-size: 1rem;
+            transition: all var(--transition-normal);
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--color-primary);
+            background: rgba(0, 217, 255, 0.1);
+            box-shadow: 0 0 15px rgba(0, 217, 255, 0.2);
+        }
+
+        .form-group input::placeholder {
+            color: var(--color-text-dark);
+        }
+
+        .form-group.half {
+            display: inline-block;
+            width: calc(50% - 0.5rem);
+        }
+
+        .form-group.half:first-child {
+            margin-right: 1rem;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+            gap: 1rem;
+        }
+
+        .step {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(0, 217, 255, 0.1);
+            border: 2px solid rgba(0, 217, 255, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--color-text-gray);
+            transition: all var(--transition-normal);
+        }
+
+        .step.active {
+            background: var(--gradient-primary);
+            border-color: var(--color-primary);
+            color: var(--color-bg);
+            box-shadow: var(--glow-primary);
+        }
+
+        .step.completed {
+            background: var(--color-secondary);
+            border-color: var(--color-secondary);
+            color: var(--color-bg);
+        }
+
+        .step-line {
+            width: 60px;
+            height: 2px;
+            background: rgba(0, 217, 255, 0.3);
+            transition: all var(--transition-normal);
+        }
+
+        .step-line.active {
+            background: var(--gradient-primary);
+        }
+
+        .form-navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .form-navigation .btn {
+            flex: 1;
+        }
+
+        .success-message {
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+            animation: successPop 0.5s ease;
+        }
+
+        @keyframes successPop {
+            0% {
+                transform: scale(0);
+            }
+            50% {
+                transform: scale(1.2);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        .success-message h3 {
+            color: var(--color-secondary);
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .success-message p {
+            color: var(--color-text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+
+        .registration-summary {
+            background: rgba(0, 217, 255, 0.05);
+            border: 1px solid rgba(0, 217, 255, 0.2);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .summary-item:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: var(--color-text-gray);
+        }
+
+        .summary-value {
+            color: var(--color-text);
+            font-weight: 600;
+        }
+
+        .required {
+            color: #ff4444;
+        }
+
+        @media (max-width: 768px) {
+            .package-selection {
+                grid-template-columns: 1fr;
+            }
+
+            .form-row {
+                flex-direction: column;
+            }
+
+            .form-group.half {
+                width: 100%;
+                margin-right: 0;
+            }
+
+            .step-indicator {
+                gap: 0.5rem;
+            }
+
+            .step {
+                width: 35px;
+                height: 35px;
+                font-size: 0.9rem;
+            }
+
+            .step-line {
+                width: 30px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1206,11 +1520,11 @@
                 <a href="#ccna" class="btn btn-primary">Explore CCNA</a>
                 <a href="#ethical-hacking" class="btn btn-secondary">Explore Ethical Hacking</a>
             </div>
-            {% comment %} <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="600">
+            <div class="scroll-indicator" data-aos="fade-up" data-aos-delay="600">
                 <div class="mouse">
                     <div class="wheel"></div>
                 </div>
-            </div> {% endcomment %}
+            </div>
         </div>
     </section>
 
@@ -1353,7 +1667,7 @@
                 </div>
             </div>
         </div>
-    </secti on>
+    </section>
 
     <!-- Ethical Hacking Course Section -->
     <section id="ethical-hacking" class="course-section hacking-section">
@@ -1642,20 +1956,9 @@
                     Join hundreds of students who've transformed their careers with QuantCrypt
                 </p>
                 <div class="cta-buttons">
-                    <a href="{% url 'program_register' %}"
-                    class="btn btn-primary btn-large glow-btn"
-                    data-action="register">
-                        Talk to Advisor
-                    </a>
-
-                    <a href="{% url 'program_register' %}"
-                    class="btn btn-secondary btn-large"
-                    data-action="register">
-                        Enroll Now
-                    </a>
+                    <button class="btn btn-primary btn-large glow-btn">Talk to Advisor</button>
+                    <button class="btn btn-secondary btn-large">Enroll Now</button>
                 </div>
-
-
             </div>
         </div>
     </section>
@@ -1912,6 +2215,155 @@
         </div>
     </div>
 
+    <!-- Registration Modal -->
+    <div id="registrationModal" class="modal registration-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Course Registration</h2>
+                <button class="close-modal" onclick="closeRegistrationModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <!-- Step Indicator -->
+                <div class="step-indicator">
+                    <div class="step active" id="step-1">1</div>
+                    <div class="step-line" id="line-1"></div>
+                    <div class="step" id="step-2">2</div>
+                    <div class="step-line" id="line-2"></div>
+                    <div class="step" id="step-3">3</div>
+                </div>
+
+                <!-- Step 1: Package Selection -->
+                <div class="form-step active" id="form-step-1">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; text-align: center;">Select Your Course Package</h3>
+                    
+                    <div class="package-selection">
+                        <div class="package-option" data-package="ccna" data-price="6500" onclick="selectPackage('ccna')">
+                            <div class="package-icon">📡</div>
+                            <div class="package-name">CCNA Only</div>
+                            <div class="package-price">₹6,500</div>
+                            <div class="package-duration">2 Months</div>
+                        </div>
+
+                        <div class="package-option" data-package="combo" data-price="10000" onclick="selectPackage('combo')">
+                            <div class="package-icon">🚀</div>
+                            <div class="package-name">CCNA + Ethical Hacking</div>
+                            <div class="package-price">₹10,000</div>
+                            <div class="package-duration">4 Months</div>
+                            <div class="package-discount">Save ₹1,000</div>
+                        </div>
+
+                        <div class="package-option" data-package="hacking" data-price="4500" onclick="selectPackage('hacking')">
+                            <div class="package-icon">🛡️</div>
+                            <div class="package-name">Ethical Hacking Only</div>
+                            <div class="package-price">₹4,500</div>
+                            <div class="package-duration">2 Months</div>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button class="btn btn-outline" onclick="closeRegistrationModal()">Cancel</button>
+                        <button class="btn btn-primary" onclick="nextStep(1)" id="step1-next" disabled>Next Step</button>
+                    </div>
+                </div>
+
+                <!-- Step 2: Personal Information -->
+                <div class="form-step" id="form-step-2">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; text-align: center;">Personal Information</h3>
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age <span class="required">*</span></label>
+                            <input type="number" id="age" placeholder="Enter your age" min="16" max="100" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email Address <span class="required">*</span></label>
+                        <input type="email" id="email" placeholder="your.email@example.com" required>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>College/University Name <span class="required">*</span></label>
+                            <input type="text" id="college" placeholder="Enter your institution name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Department <span class="required">*</span></label>
+                            <input type="text" id="department" placeholder="e.g., Computer Science" required>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button class="btn btn-outline" onclick="prevStep(2)">Previous</button>
+                        <button class="btn btn-primary" onclick="nextStep(2)">Next Step</button>
+                    </div>
+                </div>
+
+                <!-- Step 3: Social Links & Confirmation -->
+                <div class="form-step" id="form-step-3">
+                    <h3 style="color: var(--color-primary); margin-bottom: 1.5rem; text-align: center;">Social Profiles & Confirmation</h3>
+                    
+                    <div class="form-group">
+                        <label>LinkedIn Profile URL</label>
+                        <input type="url" id="linkedin" placeholder="https://linkedin.com/in/yourprofile">
+                    </div>
+
+                    <div class="form-group">
+                        <label>GitHub Profile URL</label>
+                        <input type="url" id="github" placeholder="https://github.com/yourusername">
+                    </div>
+
+                    <div class="registration-summary">
+                        <h4 style="color: var(--color-secondary); margin-bottom: 1rem;">Registration Summary</h4>
+                        <div class="summary-item">
+                            <span class="summary-label">Selected Package:</span>
+                            <span class="summary-value" id="summary-package">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Course Fee:</span>
+                            <span class="summary-value" id="summary-price">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Name:</span>
+                            <span class="summary-value" id="summary-name">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Email:</span>
+                            <span class="summary-value" id="summary-email">-</span>
+                        </div>
+                        <div class="summary-item">
+                            <span class="summary-label">Institution:</span>
+                            <span class="summary-value" id="summary-college">-</span>
+                        </div>
+                    </div>
+
+                    <div class="form-navigation">
+                        <button class="btn btn-outline" onclick="prevStep(3)">Previous</button>
+                        <button class="btn btn-primary glow-btn" onclick="submitRegistration()">Complete Registration</button>
+                    </div>
+                </div>
+
+                <!-- Success Message -->
+                <div class="form-step" id="form-step-success">
+                    <div class="success-message">
+                        <div class="success-icon">🎉</div>
+                        <h3>Registration Successful!</h3>
+                        <p>
+                            Thank you for enrolling in QuantCrypt Training!<br><br>
+                            We've sent a confirmation email to <strong id="confirm-email"></strong> with your course details and next steps.<br><br>
+                            Our team will contact you within 24 hours to complete the enrollment process.
+                        </p>
+                        <button class="btn btn-primary btn-large" onclick="closeRegistrationModal()">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
@@ -2156,7 +2608,8 @@
                 console.log('Selected course:', selectedCourse);
             });
         });
-         // Button click handlers
+
+        // Button click handlers
         function setupButtonHandlers() {
             // Get all buttons
             const allButtons = document.querySelectorAll('.btn-primary, .btn-secondary, .btn-outline');
@@ -2189,8 +2642,10 @@
                 });
             });
         }
+
         function showEnrollmentModal(action) {
-            alert(`Thank you for your interest in ${action}!\n\nPlease contact us at:\nEmail: info@quantcrypt.com\nPhone: +91-XXXXXXXXXX`);
+            // Redirect to registration page instead of modal
+            window.location.href = 'register.html';
         }
 
         function showSyllabusModal() {
@@ -2229,16 +2684,212 @@
             }
         }
 
+        // Registration Modal Functions
+        let registrationData = {
+            package: '',
+            packageName: '',
+            price: '',
+            fullName: '',
+            age: '',
+            email: '',
+            college: '',
+            department: '',
+            linkedin: '',
+            github: ''
+        };
+
+        function showRegistrationModal() {
+            const modal = document.getElementById('registrationModal');
+            if (modal) {
+                // Reset form
+                resetRegistrationForm();
+                modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        function closeRegistrationModal() {
+            const modal = document.getElementById('registrationModal');
+            if (modal) {
+                modal.classList.remove('show');
+                document.body.style.overflow = 'auto';
+                // Reset form
+                setTimeout(resetRegistrationForm, 300);
+            }
+        }
+
+        function resetRegistrationForm() {
+            // Reset to step 1
+            showFormStep(1);
+            
+            // Clear all selections and inputs
+            document.querySelectorAll('.package-option').forEach(opt => opt.classList.remove('selected'));
+            document.getElementById('step1-next').disabled = true;
+            
+            // Clear form inputs
+            document.querySelectorAll('input').forEach(input => input.value = '');
+            
+            // Reset registration data
+            registrationData = {
+                package: '',
+                packageName: '',
+                price: '',
+                fullName: '',
+                age: '',
+                email: '',
+                college: '',
+                department: '',
+                linkedin: '',
+                github: ''
+            };
+        }
+
+        function selectPackage(packageType) {
+            // Remove selection from all packages
+            document.querySelectorAll('.package-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Select clicked package
+            const selectedPackage = document.querySelector(`[data-package="${packageType}"]`);
+            selectedPackage.classList.add('selected');
+            
+            // Enable next button
+            document.getElementById('step1-next').disabled = false;
+            
+            // Store package data
+            registrationData.package = packageType;
+            registrationData.price = selectedPackage.getAttribute('data-price');
+            
+            // Get package name
+            const packageNames = {
+                'ccna': 'CCNA Only',
+                'combo': 'CCNA + Ethical Hacking',
+                'hacking': 'Ethical Hacking Only'
+            };
+            registrationData.packageName = packageNames[packageType];
+        }
+
+        function showFormStep(stepNumber) {
+            // Hide all steps
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.classList.remove('active');
+            });
+            
+            // Show target step
+            document.getElementById(`form-step-${stepNumber === 4 ? 'success' : stepNumber}`).classList.add('active');
+            
+            // Update step indicators
+            for (let i = 1; i <= 3; i++) {
+                const stepIndicator = document.getElementById(`step-${i}`);
+                const lineIndicator = document.getElementById(`line-${i}`);
+                
+                if (i < stepNumber) {
+                    stepIndicator.classList.add('completed');
+                    stepIndicator.classList.remove('active');
+                    if (lineIndicator) lineIndicator.classList.add('active');
+                } else if (i === stepNumber) {
+                    stepIndicator.classList.add('active');
+                    stepIndicator.classList.remove('completed');
+                } else {
+                    stepIndicator.classList.remove('active', 'completed');
+                    if (lineIndicator) lineIndicator.classList.remove('active');
+                }
+            }
+        }
+
+        function nextStep(currentStep) {
+            if (currentStep === 1) {
+                if (!registrationData.package) {
+                    alert('Please select a course package');
+                    return;
+                }
+                showFormStep(2);
+            } else if (currentStep === 2) {
+                // Validate personal information
+                const fullName = document.getElementById('fullName').value.trim();
+                const age = document.getElementById('age').value;
+                const email = document.getElementById('email').value.trim();
+                const college = document.getElementById('college').value.trim();
+                const department = document.getElementById('department').value.trim();
+                
+                if (!fullName || !age || !email || !college || !department) {
+                    alert('Please fill in all required fields');
+                    return;
+                }
+                
+                if (!isValidEmail(email)) {
+                    alert('Please enter a valid email address');
+                    return;
+                }
+                
+                // Store data
+                registrationData.fullName = fullName;
+                registrationData.age = age;
+                registrationData.email = email;
+                registrationData.college = college;
+                registrationData.department = department;
+                
+                // Update summary
+                updateSummary();
+                showFormStep(3);
+            }
+        }
+
+        function prevStep(currentStep) {
+            showFormStep(currentStep - 1);
+        }
+
+        function updateSummary() {
+            document.getElementById('summary-package').textContent = registrationData.packageName;
+            document.getElementById('summary-price').textContent = '₹' + parseInt(registrationData.price).toLocaleString();
+            document.getElementById('summary-name').textContent = registrationData.fullName;
+            document.getElementById('summary-email').textContent = registrationData.email;
+            document.getElementById('summary-college').textContent = registrationData.college;
+        }
+
+        function isValidEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function submitRegistration() {
+            // Store social links
+            registrationData.linkedin = document.getElementById('linkedin').value.trim();
+            registrationData.github = document.getElementById('github').value.trim();
+            
+            // Simulate form submission
+            console.log('Registration Data:', registrationData);
+            
+            // Update confirmation email
+            document.getElementById('confirm-email').textContent = registrationData.email;
+            
+            // Show success message
+            showFormStep(4);
+            
+            // In a real application, you would send this data to your backend server
+            // Example:
+            // fetch('/api/register', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify(registrationData)
+            // });
+        }
+
         // Close modal when clicking outside of it
         window.onclick = function(event) {
             const ccnaModal = document.getElementById('syllabusModal');
             const hackingModal = document.getElementById('hackingSyllabusModal');
+            const registrationModal = document.getElementById('registrationModal');
             
             if (event.target === ccnaModal) {
                 closeSyllabusModal();
             }
             if (event.target === hackingModal) {
                 closeHackingSyllabusModal();
+            }
+            if (event.target === registrationModal) {
+                closeRegistrationModal();
             }
         }
 
@@ -2247,6 +2898,7 @@
             if (event.key === 'Escape') {
                 closeSyllabusModal();
                 closeHackingSyllabusModal();
+                closeRegistrationModal();
             }
         });
 
